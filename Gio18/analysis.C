@@ -64,11 +64,14 @@ void analysis () {
    //h_ener->Fit(gaus1,"R");
    //h_ener->Fit(gaus2,"R+");
 
+
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
  
    total->SetParameters(par);
-   //h_ener->Fit(total,"R+");
+
+   h_ener->Fit(total,"R+");
+
 
    TCanvas *c3 = new TCanvas("c3", "c3");
    h_ener->SetTitle("Energy");
