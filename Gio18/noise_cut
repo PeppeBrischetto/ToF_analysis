@@ -1,0 +1,19 @@
+{
+//========= Macro generated from object: noise_cut/Graph
+//========= by ROOT version6.04/12
+   
+   TCutG *cutg = new TCutG("noise_cut",8);
+   cutg->SetVarX("Energy vs Time");
+   cutg->SetVarY("");
+   cutg->SetTitle("Graph");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,3214.3,3347.02);
+   cutg->SetPoint(1,1791.27,3412.25);
+   cutg->SetPoint(2,375.564,3020.91);
+   cutg->SetPoint(3,162.842,2553.48);
+   cutg->SetPoint(4,162.842,1249.02);
+   cutg->SetPoint(5,3441.7,1368.59);
+   cutg->SetPoint(6,3617.74,2281.72);
+   cutg->SetPoint(7,3214.3,3347.02);
+   cutg->Draw("");
+}

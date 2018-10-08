@@ -1,0 +1,82 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <stdlib.h>
+#include "TH1D.h"
+#include "TH2D.h"
+
+void analysis () {
+
+   //const char* fileName = "TOF2_run1_time.asc";
+   //const char* fileName = "TOF2_run2_pul.asc";
+   //const char* fileName = "TOF2_run3_puls.asc";
+   const char* fileName = "TOF2_tot.asc";
+   ifstream inputFile;
+   inputFile.open(fileName);
+   if ( inputFile.fail() ) {
+      //std::cout << "File " << fileName << " does not exist." << std::endl;
+      exit(1);
+   }
+   else std::cout << "File \"" << fileName << "\" correctly opened." << std::endl;
+
+   std::cout << "Cominciamo questa analisi" << std::endl;
+
+   Double_t energy, time;
+
+   TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
+   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
+
+   while ( !inputFile.eof() ) {
+         inputFile >> energy;
+         h_energy->Fill(energy);
+
+   }
+
+   inputFile.clear();
+   inputFile.seekg(0);
+
+   while ( !inputFile.eof() ) {
+         inputFile >> energy;
+         inputFile >> time;
+         //h_energy_time->Fill(energy, time);
+         h_energy_time->Fill(time, energy);
+
+   }
+
+   h_energy->GetXaxis()->SetTitle("Channel");
+   h_energy->GetYaxis()->SetTitle("Count");
+   h_energy->Draw();
+
+   TCanvas *c2 = new TCanvas("c2", "c2");
+   h_energy_time->Draw("colz");
+
+   TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
+   gaus1->SetParLimits(1, 2900., 2986.);
+   TF1 *gaus2 = new TF1("gaus2", "gaus", 2980., 3050.);
+
+   TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2850., 3060.);
+   gaus1->SetLineColor(kBlue);
+   gaus2->SetLineColor(kGreen);
+   Double_t par[6];
+   
+   TH1D *h_ener = h_energy_time->ProjectionX();
+
+   h_ener->Fit(gaus1,"R");
+   h_ener->Fit(gaus2,"R+");
+
+   gaus1->GetParameters(&par[0]);
+   gaus2->GetParameters(&par[3]);
+ 
+   total->SetParameters(par);
+   h_ener->Fit(total,"R+");
+
+   TCanvas *c3 = new TCanvas("c3", "c3");
+   h_ener->SetTitle("Energy");
+   h_ener->Draw();
+
+   TH1D *h_time = h_energy_time->ProjectionY();
+   //TCanvas *c4 = new TCanvas("c4", "c4");
+   h_time->SetTitle("ToF");
+   //h_time->Draw();
+
+}
