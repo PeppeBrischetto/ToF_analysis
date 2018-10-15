@@ -5,7 +5,7 @@
 
 void analysis () {
 
-   const char* fileName = "TOF_run11.asc";
+   const char* fileName = "TOF_run10.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -19,7 +19,6 @@ void analysis () {
    Double_t energy;
 
    TH1D *h_energy = new TH1D("h_energy", "Energy", 1024., 0., 4096.);
-
    while ( !inputFile.eof() ) {
          inputFile >> energy;
          h_energy->Fill(energy);

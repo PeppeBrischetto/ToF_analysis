@@ -18,8 +18,7 @@ void analysis () {
 
    Double_t energy;
 
-   TH1D *h_energy = new TH1D("h_energy", "Energy", 1024., 0., 1024.);
-
+   TH1D *h_energy = new TH1D("h_energy", "Energy", 1024., 0., 4096.);
    while ( !inputFile.eof() ) {
          inputFile >> energy;
          h_energy->Fill(energy);
