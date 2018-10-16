@@ -7,10 +7,14 @@
 
 void analysis () {
 
-   const char* fileName = "TOF2_run1_time.asc";
+   //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";
-   //const char* fileName = "TOF2_tot.asc";
+   TFile *cut = new TFile("cuts_file.root");
+   
+   TCutG *prova  = (TCutG*)cut->Get("prova");
+	
+   const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -39,9 +43,10 @@ void analysis () {
          inputFile >> energy;
          inputFile >> time;
          //h_energy_time->Fill(energy, time);
-         h_energy_time->Fill(time, energy);
+	if(prova->IsInside(time, energy)) h_energy_time->Fill(time, energy);
 
    }
+
 
    h_energy->GetXaxis()->SetTitle("Channel");
    h_energy->GetYaxis()->SetTitle("Count");
@@ -61,12 +66,9 @@ void analysis () {
    
    TH1D *h_ener = h_energy_time->ProjectionX();
 
-   TCanvas *c3 = new TCanvas("c3", "c3");
-   h_ener->SetTitle("Energy");
-   h_ener->Draw();
-   
    //h_ener->Fit(gaus1,"R");
    //h_ener->Fit(gaus2,"R+");
+
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
  
@@ -75,11 +77,13 @@ void analysis () {
    //h_ener->Fit(total,"R+");
 
 
+   TCanvas *c3 = new TCanvas("c3", "c3");
+   h_ener->SetTitle("Energy");
+   h_ener->Draw();
+
    TH1D *h_time = h_energy_time->ProjectionY();
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
    h_time->Draw();
-
-
 
 }
