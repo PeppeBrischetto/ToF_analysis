@@ -13,6 +13,7 @@ void analysis () {
    TFile *cut = new TFile("cuts_file.root");
    
    TCutG *prova  = (TCutG*)cut->Get("prova");
+   TCutG *prova_rumore  = (TCutG*)cut->Get("prova_rumore");
 	
    const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
@@ -43,7 +44,8 @@ void analysis () {
          inputFile >> energy;
          inputFile >> time;
          //h_energy_time->Fill(energy, time);
-	if(prova->IsInside(time, energy)) h_energy_time->Fill(time, energy);
+	 //if ( prova_rumore->IsInside(time, energy) ) 
+            h_energy_time->Fill(time, energy);
 
    }
 
