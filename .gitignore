@@ -1,3 +1,4 @@
+*.C~
 cuts_file.root
 calibrazione.ods
 .~lock.calibrazione.ods#
