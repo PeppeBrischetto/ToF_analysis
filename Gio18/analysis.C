@@ -9,8 +9,8 @@ void analysis () {
 
    TFile *cut = new TFile("cuts_file.root");
    
-   TCutG *prova  = (TCutG*)cut->Get("prova");
-   TCutG *prova_rumore  = (TCutG*)cut->Get("prova_rumore");
+   //TCutG *prova  = (TCutG*)cut->Get("prova");
+   TCutG *rumore  = (TCutG*)cut->Get("rumore");
 
    //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
@@ -44,8 +44,8 @@ void analysis () {
          inputFile >> energy;
          inputFile >> time;
          //h_energy_time->Fill(energy, time);
-	 if ( prova_rumore->IsInside(time, energy) ) 
-            h_energy_time->Fill(time, energy);
+	 if ( rumore->IsInside(energy, time) ) 
+            h_energy_time->Fill(energy, time);
 
    }
 
@@ -55,9 +55,15 @@ void analysis () {
    h_energy->Draw();
 
    TCanvas *c2 = new TCanvas("c2", "c2");
+   h_energy_time->GetXaxis()->SetTitle("T [ch]");
+   h_energy_time->GetXaxis()->SetTitleSize(0.05);
+   h_energy_time->GetXaxis()->SetTitleOffset(0.92);
+   h_energy_time->GetYaxis()->SetTitle("E [ch]");
+   h_energy_time->GetYaxis()->SetTitleSize(0.05);
+   h_energy_time->GetYaxis()->SetTitleOffset(0.92);
    h_energy_time->Draw("colz");
 
-   TH1D *h_ener = h_energy_time->ProjectionX();
+   TH1D *h_ener = h_energy_time->ProjectionY();
 
    /*  *****  Questa parte serve per fittare il picco con due gaussiane unite ******   */
    /*
@@ -82,13 +88,16 @@ void analysis () {
    */
 
    TCanvas *c3 = new TCanvas("c3", "c3");
+   c3->SetGrid();
    h_ener->SetTitle("Energy");
+   h_ener->GetYaxis()->SetTitle("Counts");
    h_ener->Draw();
    
 
-   TH1D *h_time = h_energy_time->ProjectionY();
+   TH1D *h_time = h_energy_time->ProjectionX();
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
+   h_time->GetYaxis()->SetTitle("Counts");
    h_time->Draw();
 
 }
