@@ -7,14 +7,14 @@
 
 void analysis () {
 
-   //const char* fileName = "TOF2_run1_time.asc";
-   //const char* fileName = "TOF2_run2_pul.asc";
-   //const char* fileName = "TOF2_run3_puls.asc";
    TFile *cut = new TFile("cuts_file.root");
    
    TCutG *prova  = (TCutG*)cut->Get("prova");
    TCutG *prova_rumore  = (TCutG*)cut->Get("prova_rumore");
-	
+
+   //const char* fileName = "TOF2_run1_time.asc";
+   //const char* fileName = "TOF2_run2_pul.asc";
+   //const char* fileName = "TOF2_run3_puls.asc";	
    const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
@@ -57,6 +57,10 @@ void analysis () {
    TCanvas *c2 = new TCanvas("c2", "c2");
    h_energy_time->Draw("colz");
 
+   TH1D *h_ener = h_energy_time->ProjectionX();
+
+   /*  *****  Questa parte serve per fittare il picco con due gaussiane unite ******   */
+   /*
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
    gaus1->SetParLimits(1, 2900., 2986.);
    TF1 *gaus2 = new TF1("gaus2", "gaus", 2980., 3050.);
@@ -65,8 +69,6 @@ void analysis () {
    gaus1->SetLineColor(kBlue);
    gaus2->SetLineColor(kGreen);
    Double_t par[6];
-   
-   TH1D *h_ener = h_energy_time->ProjectionX();
 
    //h_ener->Fit(gaus1,"R");
    //h_ener->Fit(gaus2,"R+");
@@ -82,6 +84,7 @@ void analysis () {
    TCanvas *c3 = new TCanvas("c3", "c3");
    h_ener->SetTitle("Energy");
    h_ener->Draw();
+   */
 
    TH1D *h_time = h_energy_time->ProjectionY();
    TCanvas *c4 = new TCanvas("c4", "c4");
