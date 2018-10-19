@@ -24,6 +24,9 @@ void calibration() {
    //retta->Draw("same");
 
    TF1 *retta_cal = (TF1*)ch_ener->FindObject("pol1");
+
+   retta_cal->SetParName(0, "b");
+   retta_cal->SetParName(1, "a");
    
    // *********  Qui di seguito si trovano le rette di best fit più o meno gli errori ********
    // IMPORTANTE: le ho commentate perché praticamente sono sovrapposte alla retta di best fit principale
@@ -40,4 +43,10 @@ void calibration() {
    retta2->FixParameter(1, (retta_cal->GetParameter(1)) - (retta_cal->GetParError(1)) );
    retta2->Draw("same");
    */
+
+   gStyle->SetOptFit(0011);
+
+   TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.75 );
+   legend->AddEntry( retta_cal, "Retta di calibrazione", "l" );
+   legend->Draw();
 }
