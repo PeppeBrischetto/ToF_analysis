@@ -74,6 +74,12 @@ void analysis () {
    h_ener->GetYaxis()->SetTitle("Counts");
    //h_ener->SetLineColor(kBlue);
    h_ener->Draw();
+ 
+   TH1D *h_ener_clone1 = (TH1D*)( h_ener->Clone() );
+   TH1D *h_ener_clone2 = (TH1D*)( h_ener->Clone() );
+   
+   h_ener_clone1->SetName("Fit picco alta E");
+   h_ener_clone2->SetName("Fit a due gaussiane");
 
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
@@ -82,28 +88,41 @@ void analysis () {
    TF1 *gaus2 = new TF1("gaus2", "gaus", 2988., 3050.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2850., 3060.);
+   total->SetParName(0, "Const1");
+   total->SetParName(1, "#mu1");
+   total->SetParName(2, "#sigma1");
+   total->SetParName(3, "Const2");
+   total->SetParName(4, "#mu2");
+   total->SetParName(5, "#sigma2");
+
    gaus1->SetLineColor(kBlue + 2);
    gaus2->SetLineColor(kGreen);
    Double_t par[6];
 
    h_ener->Fit(gaus1,"R");
-   h_ener->Fit(gaus2,"R");
+   h_ener_clone1->Fit(gaus2,"R","sames");
 
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
  
    total->SetParameters(par);
 
-   h_ener->Fit(total,"R");
+   h_ener_clone2->Fit(total,"R","sames");
 
+   gPad->Update();
    gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
-
-   TPaveStats *stats = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
-   stats->SetX1NDC(.2);
-   stats->SetX2NDC(.4);
-   stats->SetY1NDC(.7);
-   stats->SetY2NDC(.9);
-   stats->SetTextColor(4);
+   TPaveStats *stat = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
+   TPaveStats *stat1 = (TPaveStats*) h_ener_clone1->GetListOfFunctions()->FindObject("stats");
+   TPaveStats *stat2 = (TPaveStats*) h_ener_clone2->GetListOfFunctions()->FindObject("stats");
+   if ( stat && stat1 && stat2 ) {
+   stat->SetTextColor(kBlue);
+   stat1->SetTextColor(kGreen);
+   stat2->SetTextColor(kRed);
+   Float_t height1 = stat1->GetY2NDC() - stat1->GetY1NDC();
+   stat1->SetY1NDC(stat->GetY1NDC() - height1);
+   stat1->SetY2NDC(stat->GetY1NDC() );
+   //stat1->Draw();
+   }
 
    TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.85 );
    legend->AddEntry( h_ener, "Dati sperimentali", "" );
