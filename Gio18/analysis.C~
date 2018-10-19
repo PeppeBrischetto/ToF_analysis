@@ -72,10 +72,10 @@ void analysis () {
    c3->SetGrid();
    h_ener->SetTitle("Energy");
    h_ener->GetYaxis()->SetTitle("Counts");
-   h_ener->SetLineColor(kAzure - 8);
-   h_ener->SetFillColor(kAzure - 8);
-   h_ener->SetFillStyle(3002);
-   //h_ener->SetLineColor(kBlue);
+   h_ener->SetLineWidth(1);
+   //h_ener->SetLineColor(kAzure - 8);
+   //h_ener->SetFillColor(kAzure - 8);
+   //h_ener->SetFillStyle(3002);
    h_ener->Draw();
  
    TH1D *h_ener_clone1 = (TH1D*)( h_ener->Clone() );
@@ -87,10 +87,10 @@ void analysis () {
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
-   gaus1->SetParLimits(1, 2900., 2990.);
+   gaus1->SetParLimits(1, 2900., 2980.);
    TF1 *gaus2 = new TF1("gaus2", "gaus", 2988., 3050.);
 
-   TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2850., 3060.);
+   TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
    total->SetParName(0, "Const1");
    total->SetParName(1, "#mu1");
    total->SetParName(2, "#sigma1");
@@ -112,23 +112,42 @@ void analysis () {
 
    h_ener_clone2->Fit(total,"R","sames");
 
+   TF1 *gaus_draw1 = new TF1("gaus_draw1", "gaus", 2900., 3100.);
+   gaus_draw1->FixParameter( 0, total->GetParameter(0) );
+   gaus_draw1->FixParameter( 1, total->GetParameter(1) );
+   gaus_draw1->FixParameter( 2, total->GetParameter(2) );
+   gaus_draw1->SetLineColor(kCyan -6);
+   gaus_draw1->SetLineStyle(2);
+   gaus_draw1->Draw("same");
+  
+   TF1 *gaus_draw2 = new TF1("gaus_draw2", "gaus", 2900., 3100.);
+   gaus_draw2->FixParameter( 0, total->GetParameter(3) );
+   gaus_draw2->FixParameter( 1, total->GetParameter(4) );
+   gaus_draw2->FixParameter( 2, total->GetParameter(5) );
+   gaus_draw2->SetLineColor(kGreen-3);
+   gaus_draw2->SetLineStyle(9);
+   gaus_draw2->Draw("same");
+
    gPad->Update();
    gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
-   TPaveStats *stat = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
-   TPaveStats *stat1 = (TPaveStats*) h_ener_clone1->GetListOfFunctions()->FindObject("stats");
+   //TPaveStats *stat = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
+   //TPaveStats *stat1 = (TPaveStats*) h_ener_clone1->GetListOfFunctions()->FindObject("stats");
    TPaveStats *stat2 = (TPaveStats*) h_ener_clone2->GetListOfFunctions()->FindObject("stats");
-   if ( stat && stat1 && stat2 ) {
-   stat->SetTextColor(kBlue + 2);
-   stat1->SetTextColor(kGreen);
+   //if ( stat && stat1 && stat2 ) {
+   if ( stat2 ) {
+   //stat->SetTextColor(kBlue + 2);
+   //stat1->SetTextColor(kGreen);
    stat2->SetTextColor(kRed);
-   Float_t height1 = stat1->GetY2NDC() - stat1->GetY1NDC();
-   stat1->SetY1NDC(stat->GetY1NDC() - height1);
-   stat1->SetY2NDC(stat->GetY1NDC() );
+   //Float_t height1 = stat1->GetY2NDC() - stat1->GetY1NDC();
+   //stat1->SetY1NDC(stat->GetY1NDC() - height1);
+   //stat1->SetY2NDC(stat->GetY1NDC() );
    //stat1->Draw();
    }
 
    TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.75 );
    legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
+   legend->AddEntry( gaus_draw1, "Gaussiana picco bassa energia", "l" );
+   legend->AddEntry( gaus_draw2, "Gaussiana picco alta energia", "l" );
    legend->AddEntry( total, "Fit con funzione a due gaussiane", "l" );
    legend->Draw();  
 

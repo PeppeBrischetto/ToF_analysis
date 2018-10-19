@@ -17,5 +17,27 @@ void calibration() {
    ch_ener->SetTitle("Calibration Plot"); 
    ch_ener->Draw("A*");
    ch_ener->Fit("pol1");
-  
+
+   // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma
+   //TF1 *retta = new TF1("retta", "0.560817*x-0.", 2000., 6000.);
+   //retta->SetLineColor(kBlue);
+   //retta->Draw("same");
+
+   TF1 *retta_cal = (TF1*)ch_ener->FindObject("pol1");
+   
+   // *********  Qui di seguito si trovano le rette di best fit più o meno gli errori ********
+   // IMPORTANTE: le ho commentate perché praticamente sono sovrapposte alla retta di best fit principale
+   /*
+   TF1 *retta1 = new TF1("retta1", "pol1", 2000., 6000.);
+   retta1->SetLineColor(kGreen);
+   retta1->FixParameter(0, (retta_cal->GetParameter(0)) + (retta_cal->GetParError(0)) );
+   retta1->FixParameter(1, (retta_cal->GetParameter(1)) + (retta_cal->GetParError(1)) );
+   retta1->Draw("same");
+
+   TF1 *retta2 = new TF1("retta2", "pol1", 2000., 6000.);
+   retta2->SetLineColor(kOrange);
+   retta2->FixParameter(0, (retta_cal->GetParameter(0)) - (retta_cal->GetParError(0)) );
+   retta2->FixParameter(1, (retta_cal->GetParameter(1)) - (retta_cal->GetParError(1)) );
+   retta2->Draw("same");
+   */
 }
