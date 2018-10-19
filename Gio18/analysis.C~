@@ -75,7 +75,7 @@ void analysis () {
    //h_ener->SetLineColor(kBlue);
    h_ener->Draw();
 
-   /*  *****  Questa parte serve per fittare il picco con due gaussiane unite ******   */
+   /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
    gaus1->SetParLimits(1, 2900., 2990.);
@@ -120,7 +120,7 @@ void analysis () {
    stats->SetY1NDC(.7);
    stats->SetY2NDC(.9);
    stats->SetTextColor(4);
-   gPad->Modified();
+   //gPad->Modified();
    //gPad->Modified();
    //gPad->Update();
 

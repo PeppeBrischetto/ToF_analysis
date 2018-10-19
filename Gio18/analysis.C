@@ -75,7 +75,7 @@ void analysis () {
    //h_ener->SetLineColor(kBlue);
    h_ener->Draw();
 
-   /*  *****  Questa parte serve per fittare il picco con due gaussiane unite ******   */
+   /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
    gaus1->SetParLimits(1, 2900., 2990.);
@@ -95,34 +95,15 @@ void analysis () {
    total->SetParameters(par);
 
    h_ener->Fit(total,"R");
-   //gPad->Update();
 
-   //c3->Update();
    gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
-   /*
-   TPaveStats *stat_total = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
-   if ( stat_total ) {
-      std::cout << "Ciao" << std::endl;
-      //stat_total->SetTextColor(kRed);
-      //stat_total->Draw();
-   }
-   //gStyle->SetOptFit(1);
-   */
 
-   //TPaveText *stats = (TPaveText*)gPad->GetPrimitive("stats");
-   //stats->SetName("Mystats");
    TPaveStats *stats = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
-   //h_ener->SetStats(0);
-   //stats->AddText("my text line");
-   //stats->SetTextColor(kBlue);
    stats->SetX1NDC(.2);
    stats->SetX2NDC(.4);
    stats->SetY1NDC(.7);
    stats->SetY2NDC(.9);
    stats->SetTextColor(4);
-   //gPad->Modified();
-   //gPad->Modified();
-   //gPad->Update();
 
    TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.85 );
    legend->AddEntry( h_ener, "Dati sperimentali", "" );
