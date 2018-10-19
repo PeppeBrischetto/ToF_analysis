@@ -72,6 +72,9 @@ void analysis () {
    c3->SetGrid();
    h_ener->SetTitle("Energy");
    h_ener->GetYaxis()->SetTitle("Counts");
+   h_ener->SetLineColor(kAzure - 8);
+   h_ener->SetFillColor(kAzure - 8);
+   h_ener->SetFillStyle(3002);
    //h_ener->SetLineColor(kBlue);
    h_ener->Draw();
  
@@ -111,14 +114,11 @@ void analysis () {
 
    gPad->Update();
    gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
-   gStyle->SetOptStat("n");
-   //gPad->Update();
-   //c3->Update();
    TPaveStats *stat = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
    TPaveStats *stat1 = (TPaveStats*) h_ener_clone1->GetListOfFunctions()->FindObject("stats");
    TPaveStats *stat2 = (TPaveStats*) h_ener_clone2->GetListOfFunctions()->FindObject("stats");
    if ( stat && stat1 && stat2 ) {
-   stat->SetTextColor(kBlue);
+   stat->SetTextColor(kBlue + 2);
    stat1->SetTextColor(kGreen);
    stat2->SetTextColor(kRed);
    Float_t height1 = stat1->GetY2NDC() - stat1->GetY1NDC();
@@ -127,10 +127,10 @@ void analysis () {
    //stat1->Draw();
    }
 
-   TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.85 );
-   legend->AddEntry( h_ener, "Dati sperimentali", "" );
-   legend->AddEntry( total, "Fit con funzione a due gaussiane", "" );
-   //legend->Draw();  
+   TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.75 );
+   legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
+   legend->AddEntry( total, "Fit con funzione a due gaussiane", "l" );
+   legend->Draw();  
 
    TH1D *h_time = h_energy_time->ProjectionX();
    TCanvas *c4 = new TCanvas("c4", "c4");
