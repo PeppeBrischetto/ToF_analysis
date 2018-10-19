@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "TH1D.h"
 #include "TH2D.h"
+#include "TPaveStats.h"
+#include "TStyle.h"
 
 void analysis () {
 
@@ -49,7 +51,8 @@ void analysis () {
 
    }
 
-
+   gStyle->SetOptStat("e");
+ 
    h_energy->GetXaxis()->SetTitle("Channel");
    h_energy->GetYaxis()->SetTitle("Count");
    h_energy->Draw();
@@ -65,34 +68,66 @@ void analysis () {
 
    TH1D *h_ener = h_energy_time->ProjectionY();
 
+   TCanvas *c3 = new TCanvas("c3", "c3");
+   c3->SetGrid();
+   h_ener->SetTitle("Energy");
+   h_ener->GetYaxis()->SetTitle("Counts");
+   //h_ener->SetLineColor(kBlue);
+   h_ener->Draw();
+
    /*  *****  Questa parte serve per fittare il picco con due gaussiane unite ******   */
-   /*
+   
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
-   gaus1->SetParLimits(1, 2900., 2986.);
-   TF1 *gaus2 = new TF1("gaus2", "gaus", 2980., 3050.);
+   gaus1->SetParLimits(1, 2900., 2990.);
+   TF1 *gaus2 = new TF1("gaus2", "gaus", 2988., 3050.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2850., 3060.);
-   gaus1->SetLineColor(kBlue);
+   gaus1->SetLineColor(kBlue + 2);
    gaus2->SetLineColor(kGreen);
    Double_t par[6];
 
-   //h_ener->Fit(gaus1,"R");
-   //h_ener->Fit(gaus2,"R+");
+   h_ener->Fit(gaus1,"R");
+   h_ener->Fit(gaus2,"R");
 
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
  
    total->SetParameters(par);
 
-   //h_ener->Fit(total,"R+");
+   h_ener->Fit(total,"R");
+   //gPad->Update();
+
+   //c3->Update();
+   gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
+   /*
+   TPaveStats *stat_total = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
+   if ( stat_total ) {
+      std::cout << "Ciao" << std::endl;
+      //stat_total->SetTextColor(kRed);
+      //stat_total->Draw();
+   }
+   //gStyle->SetOptFit(1);
    */
 
-   TCanvas *c3 = new TCanvas("c3", "c3");
-   c3->SetGrid();
-   h_ener->SetTitle("Energy");
-   h_ener->GetYaxis()->SetTitle("Counts");
-   h_ener->Draw();
-   
+   //TPaveText *stats = (TPaveText*)gPad->GetPrimitive("stats");
+   //stats->SetName("Mystats");
+   TPaveStats *stats = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
+   //h_ener->SetStats(0);
+   //stats->AddText("my text line");
+   //stats->SetTextColor(kBlue);
+   stats->SetX1NDC(.2);
+   stats->SetX2NDC(.4);
+   stats->SetY1NDC(.7);
+   stats->SetY2NDC(.9);
+   stats->SetTextColor(4);
+   //gPad->Modified();
+   //gPad->Modified();
+   //gPad->Update();
+
+   TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.85 );
+   legend->AddEntry( h_ener, "Dati sperimentali", "" );
+   legend->AddEntry( total, "Fit con funzione a due gaussiane", "" );
+   //legend->Draw();  
 
    TH1D *h_time = h_energy_time->ProjectionX();
    TCanvas *c4 = new TCanvas("c4", "c4");
