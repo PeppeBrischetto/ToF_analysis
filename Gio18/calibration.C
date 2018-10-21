@@ -8,14 +8,21 @@ void calibration() {
 
    const Int_t n = 3;
    
-   Double_t channel[n] = {1199., 2989.2, 3009.8};
-   Double_t energy[n] = {2233.8, 5419.961, 5462.863};
-   Double_t err_channel[n] = {0.3, 1.6, 0.3};
+   Double_t channel[n] = {1200.9, 2989., 3009.8};
+   Double_t energy[n] = {2243.796, 5419.961, 5462.863};
+   Double_t err_channel[n] = {0.5, 2., 0.3};
    Double_t err_energy[n] = {0., 0., 0.};
    
+   TCanvas *c1 = new TCanvas("c1", "c1");
+   c1->SetGrid();
+ 
    TGraphErrors *ch_ener = new TGraphErrors( n, energy, channel, err_energy, err_channel );
-   ch_ener->SetTitle("Calibration Plot"); 
+   ch_ener->SetTitle("Calibrazione in Energia");
    ch_ener->Draw("A*");
+   ch_ener->SetMarkerStyle(20);
+   ch_ener->GetXaxis()->SetTitle("E [keV]");
+   ch_ener->GetYaxis()->SetTitle("Canali");
+   ch_ener->GetYaxis()->SetTitleOffset(1.25);
    ch_ener->Fit("pol1");
 
    // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma

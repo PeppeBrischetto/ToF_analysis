@@ -87,8 +87,8 @@ void analysis () {
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
-   gaus1->SetParLimits(1, 2900., 2999.);
-   TF1 *gaus2 = new TF1("gaus2", "gaus", 2988., 3050.);
+   gaus1->SetParLimits(1, 2900., 2988.);
+   TF1 *gaus2 = new TF1("gaus2", "gaus", 2990., 3050.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
    total->SetParName(0, "Const1");

@@ -87,8 +87,8 @@ void analysis () {
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
-   gaus1->SetParLimits(1, 2900., 2980.);
-   TF1 *gaus2 = new TF1("gaus2", "gaus", 2988., 3050.);
+   gaus1->SetParLimits(1, 2900., 2988.);
+   TF1 *gaus2 = new TF1("gaus2", "gaus", 2990., 3050.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
    total->SetParName(0, "Const1");
@@ -102,15 +102,15 @@ void analysis () {
    gaus2->SetLineColor(kGreen);
    Double_t par[6];
 
-   h_ener->Fit(gaus1,"R");
-   h_ener_clone1->Fit(gaus2,"R","sames");
+   h_ener->Fit(gaus1,"RL");
+   h_ener_clone1->Fit(gaus2,"RL","sames");
 
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
  
    total->SetParameters(par);
 
-   h_ener_clone2->Fit(total,"R","sames");
+   h_ener_clone2->Fit(total,"RL","sames");
 
    TF1 *gaus_draw1 = new TF1("gaus_draw1", "gaus", 2900., 3100.);
    gaus_draw1->FixParameter( 0, total->GetParameter(0) );
