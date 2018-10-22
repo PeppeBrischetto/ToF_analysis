@@ -39,7 +39,7 @@ void analysis_tree() {
        
    }
 
-   t->Draw( "E:ToF", "E<3500 && E>500", "" );
+   t->Draw( "E:ToF", "E>500 && E<3500 && ToF>500 && ToF<3500", "col" );
 
    TCanvas *c2 = new TCanvas( "c2", "c2" );
    h_energy_tof->Draw("colz");
