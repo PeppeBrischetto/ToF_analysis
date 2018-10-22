@@ -69,7 +69,7 @@ void analysis () {
    TH1D *h_ener = h_energy_time->ProjectionY();
 
    TCanvas *c3 = new TCanvas("c3", "c3");
-   c3->SetGrid();
+   //c3->SetGrid();
    h_ener->SetTitle("Energy");
    h_ener->GetYaxis()->SetTitle("Counts");
    h_ener->SetLineWidth(1);
@@ -102,15 +102,15 @@ void analysis () {
    gaus2->SetLineColor(kGreen);
    Double_t par[6];
 
-   h_ener->Fit(gaus1,"R");
-   h_ener_clone1->Fit(gaus2,"R","sames");
+   h_ener->Fit(gaus1,"RNOM");
+   h_ener_clone1->Fit(gaus2,"RNOM","sames");
 
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
  
    total->SetParameters(par);
 
-   h_ener_clone2->Fit(total,"R","sames");
+   h_ener_clone2->Fit(total,"RM","sames");
 
    TF1 *gaus_draw1 = new TF1("gaus_draw1", "gaus", 2900., 3100.);
    gaus_draw1->FixParameter( 0, total->GetParameter(0) );

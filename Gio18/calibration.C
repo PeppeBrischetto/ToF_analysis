@@ -8,9 +8,10 @@ void calibration() {
 
    const Int_t n = 3;
    
-   Double_t channel[n] = {1200.9, 2989., 3009.8};
+   //Double_t channel[n] = {1201.1, 2989., 3009.8}; // va bene per il chi-quadro
+   Double_t channel[n] = {1200.1, 2983., 3008.5}; // va bene per il log likelihood
    Double_t energy[n] = {2243.796, 5419.961, 5462.863};
-   Double_t err_channel[n] = {0.5, 2., 0.3};
+   Double_t err_channel[n] = {0.6, 2., 0.2};
    Double_t err_energy[n] = {0., 0., 0.};
    
    TCanvas *c1 = new TCanvas("c1", "c1");
@@ -30,7 +31,7 @@ void calibration() {
    //retta->SetLineColor(kBlue);
    //retta->Draw("same");
 
-   TF1 *retta_cal = (TF1*)ch_ener->FindObject("pol1");
+   TF1 *retta_cal = ch_ener->GetFunction("pol1");
 
    retta_cal->SetParName(0, "b");
    retta_cal->SetParName(1, "a");
