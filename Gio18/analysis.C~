@@ -51,7 +51,7 @@ void analysis () {
 
    }
    gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
-   gStyle->SetOptStat("e");
+   gStyle->SetOptStat("n");
    gStyle->SetStatY(0.9);
    gStyle->SetStatX(0.9);
    gStyle->SetStatW(0.05);
@@ -67,7 +67,7 @@ void analysis () {
    h_energy_time->GetXaxis()->SetTitleOffset(0.92);
    h_energy_time->GetYaxis()->SetTitle("E [ch]");
    h_energy_time->GetYaxis()->SetTitleSize(0.05);
-   h_energy_time->GetYaxis()->SetTitleOffset(0.92);
+   h_energy_time->GetYaxis()->SetTitleOffset(0.93);
    h_energy_time->Draw("colz");
 
    TH1D *h_ener = h_energy_time->ProjectionY();
@@ -107,15 +107,15 @@ void analysis () {
    gaus2->SetLineColor(kGreen);
    Double_t par[6];
 
-   h_ener->Fit(gaus1,"RNOLM");
-   h_ener_clone1->Fit(gaus2,"RNOLM","sames");
+   h_ener->Fit(gaus1,"RNOM");
+   h_ener_clone1->Fit(gaus2,"RNOM","sames");
 
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
  
    total->SetParameters(par);
 
-   h_ener_clone2->Fit(total,"RLM","sames");
+   h_ener_clone2->Fit(total,"RM","sames");
 
    TF1 *gaus_draw1 = new TF1("gaus_draw1", "gaus", 2900., 3100.);
    gaus_draw1->FixParameter( 0, total->GetParameter(0) );
@@ -144,9 +144,9 @@ void analysis () {
    //stat->SetTextColor(kBlue + 2);
    //stat1->SetTextColor(kGreen);
    stat2->SetTextColor(kBlack);
-   stat2->SetX1NDC(0.59);
+   stat2->SetX1NDC(0.64);
    stat2->SetX2NDC(0.9);
-   stat2->SetY1NDC(0.6);
+   stat2->SetY1NDC(0.58);
    stat2->SetY2NDC(0.9);
    //Float_t height1 = stat1->GetY2NDC() - stat1->GetY1NDC();
    //stat1->SetY1NDC(stat->GetY1NDC() - height1);
@@ -154,17 +154,18 @@ void analysis () {
    //stat1->Draw();
    }
 
-   TLegend *legend = new TLegend( 0.59, 0.4, 0.9, 0.55 );
+   TLegend *legend = new TLegend( 0.64, 0.41, 0.9, 0.56 );
    legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
-   legend->AddEntry( gaus_draw1, "Gaussiana picco bassa energia", "l" );
-   legend->AddEntry( gaus_draw2, "Gaussiana picco alta energia", "l" );
+   legend->AddEntry( gaus_draw1, "Gaussiana picco a 5420 keV", "l" );
+   legend->AddEntry( gaus_draw2, "Gaussiana picco a 5463 keV", "l" );
    legend->AddEntry( total, "Fit con funzione a due gaussiane", "l" );
+   legend->SetTextSize(0.023);
    legend->Draw();  
 
    TH1D *h_time = h_energy_time->ProjectionX();
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
-   h_time->GetYaxis()->SetTitle("Counts");
+   h_time->GetYaxis()->SetTitle("Conteggi");
    h_time->Draw();
 
 }

@@ -5,7 +5,10 @@
 
 void analysis () {
 
-   const char* fileName = "TOF_run11.asc";
+   const char* fileName = "TOF_run7.asc";
+   //const char* fileName = "TOF_run8.asc";
+   //const char* fileName = "TOF_run10.asc";
+   //const char* fileName = "TOF_run11.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
