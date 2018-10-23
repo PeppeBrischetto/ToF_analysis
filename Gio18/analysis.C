@@ -50,8 +50,12 @@ void analysis () {
             h_energy_time->Fill(energy, time);
 
    }
-
+   gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
    gStyle->SetOptStat("e");
+   gStyle->SetStatY(0.9);
+   gStyle->SetStatX(0.9);
+   gStyle->SetStatW(0.05);
+   gStyle->SetStatH(0.05);
  
    h_energy->GetXaxis()->SetTitle("Channel");
    h_energy->GetYaxis()->SetTitle("Count");
@@ -130,7 +134,8 @@ void analysis () {
    gaus_draw2->Draw("same");
 
    gPad->Update();
-   gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
+
+
    //TPaveStats *stat = (TPaveStats*) h_ener->GetListOfFunctions()->FindObject("stats");
    //TPaveStats *stat1 = (TPaveStats*) h_ener_clone1->GetListOfFunctions()->FindObject("stats");
    TPaveStats *stat2 = (TPaveStats*) h_ener_clone2->GetListOfFunctions()->FindObject("stats");
@@ -139,13 +144,17 @@ void analysis () {
    //stat->SetTextColor(kBlue + 2);
    //stat1->SetTextColor(kGreen);
    stat2->SetTextColor(kBlack);
+   stat2->SetX1NDC(0.59);
+   stat2->SetX2NDC(0.9);
+   stat2->SetY1NDC(0.6);
+   stat2->SetY2NDC(0.9);
    //Float_t height1 = stat1->GetY2NDC() - stat1->GetY1NDC();
    //stat1->SetY1NDC(stat->GetY1NDC() - height1);
    //stat1->SetY2NDC(stat->GetY1NDC() );
    //stat1->Draw();
    }
 
-   TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.75 );
+   TLegend *legend = new TLegend( 0.59, 0.43, 0.9, 0.58 );
    legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
    legend->AddEntry( gaus_draw1, "Gaussiana picco bassa energia", "l" );
    legend->AddEntry( gaus_draw2, "Gaussiana picco alta energia", "l" );
