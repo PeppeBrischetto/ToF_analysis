@@ -58,7 +58,13 @@ void calibration() {
 
    gStyle->SetOptFit(0111); // con queste opzioni stampo i valori dei parametri e i loro errori
 
-   //TLegend *legend = new TLegend( 0.6, 0.65, 0.32, 0.75 );
+   TPaveStats *st = (TPaveStats*)ch_ener->GetListOfFunctions()->FindObject("stats");
+   st->SetX1NDC(0.63);
+   st->SetX2NDC(0.9);
+   st->SetY1NDC(0.42);
+   st->SetY2NDC(0.58);
+   st->SetTextSize(0.037);
+
    TLegend *legend = new TLegend( 0.63, 0.3, 0.9, 0.4 );
    legend->AddEntry( retta_cal, "Retta di calibrazione", "l" );
    legend->SetTextSize(0.035);
