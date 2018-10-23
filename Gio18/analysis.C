@@ -70,8 +70,9 @@ void analysis () {
 
    TCanvas *c3 = new TCanvas("c3", "c3");
    //c3->SetGrid();
-   h_ener->SetTitle("Energy");
-   h_ener->GetYaxis()->SetTitle("Counts");
+   h_ener->SetTitle("Spettro energetico");
+   h_ener->GetYaxis()->SetTitle("Conteggi");
+   h_ener->GetYaxis()->SetTitleOffset(1.15);
    h_ener->SetLineWidth(1);
    //h_ener->SetLineColor(kAzure - 8);
    //h_ener->SetFillColor(kAzure - 8);
@@ -82,7 +83,7 @@ void analysis () {
    TH1D *h_ener_clone2 = (TH1D*)( h_ener->Clone() );
    
    h_ener_clone1->SetName("Fit picco alta E");
-   h_ener_clone2->SetName("Fit a due gaussiane");
+   h_ener_clone2->SetName("Parametri funzione a due gaussiane");
 
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
@@ -102,21 +103,21 @@ void analysis () {
    gaus2->SetLineColor(kGreen);
    Double_t par[6];
 
-   h_ener->Fit(gaus1,"RNOM");
-   h_ener_clone1->Fit(gaus2,"RNOM","sames");
+   h_ener->Fit(gaus1,"RNOLM");
+   h_ener_clone1->Fit(gaus2,"RNOLM","sames");
 
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
  
    total->SetParameters(par);
 
-   h_ener_clone2->Fit(total,"RM","sames");
+   h_ener_clone2->Fit(total,"RLM","sames");
 
    TF1 *gaus_draw1 = new TF1("gaus_draw1", "gaus", 2900., 3100.);
    gaus_draw1->FixParameter( 0, total->GetParameter(0) );
    gaus_draw1->FixParameter( 1, total->GetParameter(1) );
    gaus_draw1->FixParameter( 2, total->GetParameter(2) );
-   gaus_draw1->SetLineColor(kCyan -6);
+   gaus_draw1->SetLineColor(kOrange + 1);
    gaus_draw1->SetLineStyle(2);
    gaus_draw1->Draw("same");
   
@@ -137,7 +138,7 @@ void analysis () {
    if ( stat2 ) {
    //stat->SetTextColor(kBlue + 2);
    //stat1->SetTextColor(kGreen);
-   stat2->SetTextColor(kRed);
+   stat2->SetTextColor(kBlack);
    //Float_t height1 = stat1->GetY2NDC() - stat1->GetY1NDC();
    //stat1->SetY1NDC(stat->GetY1NDC() - height1);
    //stat1->SetY2NDC(stat->GetY1NDC() );

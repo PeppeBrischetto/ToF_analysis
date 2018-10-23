@@ -15,15 +15,19 @@ void calibration() {
    Double_t err_energy[n] = {0., 0., 0.};
    
    TCanvas *c1 = new TCanvas("c1", "c1");
-   c1->SetGrid();
+   //c1->SetGrid();
  
    TGraphErrors *ch_ener = new TGraphErrors( n, energy, channel, err_energy, err_channel );
+   ch_ener->SetName("Parametri del fit");
    ch_ener->SetTitle("Calibrazione in Energia");
    ch_ener->Draw("A*");
    ch_ener->SetMarkerStyle(20);
    ch_ener->GetXaxis()->SetTitle("E [keV]");
    ch_ener->GetYaxis()->SetTitle("Canali");
-   ch_ener->GetYaxis()->SetTitleOffset(1.25);
+   ch_ener->GetXaxis()->SetTitleSize(0.05);
+   ch_ener->GetYaxis()->SetTitleSize(0.05);
+   ch_ener->GetXaxis()->SetTitleOffset(0.90);
+   ch_ener->GetYaxis()->SetTitleOffset(1.00);
    ch_ener->Fit("pol1");
 
    // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma
@@ -52,9 +56,11 @@ void calibration() {
    retta2->Draw("same");
    */
 
-   gStyle->SetOptFit(0011);
+   gStyle->SetOptFit(0111); // con queste opzioni stampo i valori dei parametri e i loro errori
 
-   TLegend *legend = new TLegend( 0.6, 0.65, 0.35, 0.75 );
+   //TLegend *legend = new TLegend( 0.6, 0.65, 0.32, 0.75 );
+   TLegend *legend = new TLegend( 0.63, 0.3, 0.9, 0.4 );
    legend->AddEntry( retta_cal, "Retta di calibrazione", "l" );
+   legend->SetTextSize(0.035);
    legend->Draw();
 }
