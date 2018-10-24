@@ -5,8 +5,24 @@
 
 void analysis () {
 
-   const char* fileName = "TOF_run7.asc";
-   //const char* fileName = "TOF_run8.asc";
+   TFile *cut = new TFile("cuts_file.root");
+   
+   /*  ************   Ricordati di mettere il taglio giusto per il run giusto ****************  */
+
+   //TCutG *prova  = (TCutG*)cut->Get("prova");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore");
+   TCutG *rumore  = (TCutG*)cut->Get("rumore_run4NEW");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run5NEW");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run6NEW");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run7");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run10");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run11");
+
+   const char* fileName = "TOF_run4NEW.asc";
+   //const char* fileName = "TOF_run5NEW.asc";
+   //const char* fileName = "TOF_run6NEW.asc";
+   //const char* fileName = "TOF_run7.asc";
+   //const char* fileName = "TOF_run8.asc"; // questo run sembra fare schifo (nel tof ci sono tre picchi)
    //const char* fileName = "TOF_run10.asc";
    //const char* fileName = "TOF_run11.asc";
    ifstream inputFile;
@@ -37,7 +53,7 @@ void analysis () {
          inputFile >> energy;
          inputFile >> time;
          //h_energy_time->Fill(energy, time);
-	 //if ( prova_rumore->IsInside(time, energy) ) 
+	 //if ( rumore->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
    }
@@ -45,7 +61,7 @@ void analysis () {
 
    h_energy->GetXaxis()->SetTitle("Channel");
    h_energy->GetYaxis()->SetTitle("Count");
-   h_energy->Draw();
+   //h_energy->Draw();      // ************** Ormai ho capito che questo istogramma è inutile
 
    TCanvas *c2 = new TCanvas("c2", "c2");
    h_energy_time->Draw("colz");

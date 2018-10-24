@@ -14,10 +14,10 @@ void analysis () {
    //TCutG *prova  = (TCutG*)cut->Get("prova");
    TCutG *rumore  = (TCutG*)cut->Get("rumore");
 
-   //const char* fileName = "TOF2_run1_time.asc";
+   const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";	
-   const char* fileName = "TOF2_tot.asc";
+   //const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -59,7 +59,7 @@ void analysis () {
  
    h_energy->GetXaxis()->SetTitle("Channel");
    h_energy->GetYaxis()->SetTitle("Count");
-   h_energy->Draw();
+   //h_energy->Draw();      // ************** Ormai ho capito che questo istogramma è inutile
 
    TCanvas *c2 = new TCanvas("c2", "c2");
    h_energy_time->GetXaxis()->SetTitle("T [ch]");
