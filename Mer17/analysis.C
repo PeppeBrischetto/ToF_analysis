@@ -52,11 +52,16 @@ void analysis () {
 
    TH1D *h_ener = h_energy_time->ProjectionX();
    TCanvas *c3 = new TCanvas("c3", "c3");
-   h_ener->SetTitle("Energy");
+   h_ener->SetTitle("Spettro energetico");
+   h_ener->GetYaxis()->SetTitle("Conteggi");
+   h_ener->GetYaxis()->SetTitleOffset(1.15);
+   h_ener->SetLineWidth(1);
    h_ener->Draw();
 
    TH1D *h_time = h_energy_time->ProjectionY();
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
+   h_time->GetYaxis()->SetTitle("Conteggi");
+   h_time->GetYaxis()->SetTitleOffset(1.15);
    h_time->Draw();
 }

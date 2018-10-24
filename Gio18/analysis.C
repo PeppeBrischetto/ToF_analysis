@@ -166,6 +166,7 @@ void analysis () {
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
    h_time->GetYaxis()->SetTitle("Conteggi");
+   h_time->GetYaxis()->SetTitleOffset(1.15);
    h_time->Draw();
 
 }

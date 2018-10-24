@@ -144,7 +144,7 @@ void analysis () {
    //stat->SetTextColor(kBlue + 2);
    //stat1->SetTextColor(kGreen);
    stat2->SetTextColor(kBlack);
-   stat2->SetX1NDC(0.64);
+   stat2->SetX1NDC(0.62);
    stat2->SetX2NDC(0.9);
    stat2->SetY1NDC(0.58);
    stat2->SetY2NDC(0.9);
@@ -154,7 +154,7 @@ void analysis () {
    //stat1->Draw();
    }
 
-   TLegend *legend = new TLegend( 0.64, 0.41, 0.9, 0.56 );
+   TLegend *legend = new TLegend( 0.62, 0.41, 0.9, 0.56 );
    legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
    legend->AddEntry( gaus_draw1, "Gaussiana picco a 5420 keV", "l" );
    legend->AddEntry( gaus_draw2, "Gaussiana picco a 5463 keV", "l" );
@@ -166,6 +166,7 @@ void analysis () {
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
    h_time->GetYaxis()->SetTitle("Conteggi");
+   h_time->GetYaxis()->SetTitleOffset(1.15);
    h_time->Draw();
 
 }
