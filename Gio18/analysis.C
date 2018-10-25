@@ -14,10 +14,10 @@ void analysis () {
    //TCutG *prova  = (TCutG*)cut->Get("prova");
    TCutG *rumore  = (TCutG*)cut->Get("rumore");
 
-   const char* fileName = "TOF2_run1_time.asc";
+   //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";	
-   //const char* fileName = "TOF2_tot.asc";
+   const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -91,8 +91,8 @@ void analysis () {
 
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
-   TF1 *gaus1 = new TF1("gaus1", "gaus", 2950., 2999.);
-   gaus1->SetParLimits(1, 2970., 2994.);
+   TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
+   gaus1->SetParLimits(1, 2960., 2994.);
    TF1 *gaus2 = new TF1("gaus2", "gaus", 3000., 3080.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
