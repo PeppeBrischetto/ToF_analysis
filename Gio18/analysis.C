@@ -59,7 +59,7 @@ void analysis () {
  
    h_energy->GetXaxis()->SetTitle("Channel");
    h_energy->GetYaxis()->SetTitle("Count");
-   h_energy->Draw();
+   //h_energy->Draw();      // ************** Ormai ho capito che questo istogramma è inutile
 
    TCanvas *c2 = new TCanvas("c2", "c2");
    h_energy_time->GetXaxis()->SetTitle("T [ch]");
@@ -91,8 +91,8 @@ void analysis () {
 
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
-   TF1 *gaus1 = new TF1("gaus1", "gaus", 2950., 2999.);
-   gaus1->SetParLimits(1, 2970., 2994.);
+   TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
+   gaus1->SetParLimits(1, 2960., 2994.);
    TF1 *gaus2 = new TF1("gaus2", "gaus", 3000., 3080.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
@@ -166,6 +166,7 @@ void analysis () {
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
    h_time->GetYaxis()->SetTitle("Conteggi");
+   h_time->GetYaxis()->SetTitleOffset(1.15);
    h_time->Draw();
 
 }

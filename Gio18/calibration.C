@@ -10,6 +10,7 @@ void calibration() {
    
    Double_t channel[n] = {1201.6, 2989., 3009.8}; // va bene per il chi-quadro
    //Double_t channel[n] = {1200.1, 2983., 3008.5}; // va bene per il log likelihood
+   //Double_t channel[n] = {1201.7, 2991., 3010.3}; // valori per 4096 bin -> meglio 2048 bin
    Double_t energy[n] = {2243.796, 5419.961, 5462.863};
    Double_t err_channel[n] = {0.7, 2., 0.3};
    Double_t err_energy[n] = {0., 0., 0.};
