@@ -13,6 +13,8 @@ void analysis () {
    
    //TCutG *prova  = (TCutG*)cut->Get("prova");
    TCutG *rumore  = (TCutG*)cut->Get("rumore");
+   TCutG *picco_alta_energia  = (TCutG*)cut->Get("picco_alta_energia");
+   TCutG *picco_bassa_energia  = (TCutG*)cut->Get("picco_bassa_energia");
 
    //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
@@ -46,7 +48,8 @@ void analysis () {
          inputFile >> energy;
          inputFile >> time;
          //h_energy_time->Fill(energy, time);
-	 if ( rumore->IsInside(energy, time) ) 
+	 //if ( rumore->IsInside(energy, time) )
+	 if ( rumore->IsInside(energy, time) && picco_alta_energia->IsInside(energy, time) ) 
             h_energy_time->Fill(energy, time);
 
    }
@@ -154,12 +157,13 @@ void analysis () {
    //stat1->Draw();
    }
 
-   TLegend *legend = new TLegend( 0.62, 0.41, 0.9, 0.56 );
+   TLegend *legend = new TLegend( 0.615, 0.405, 0.85, 0.555 );
    legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
    legend->AddEntry( gaus_draw1, "Gaussiana picco a 5420 keV", "l" );
    legend->AddEntry( gaus_draw2, "Gaussiana picco a 5463 keV", "l" );
    legend->AddEntry( total, "Fit con funzione a due gaussiane", "l" );
    legend->SetTextSize(0.023);
+   legend->SetLineWidth(0.);
    legend->Draw();  
 
    TH1D *h_time = h_energy_time->ProjectionX();
