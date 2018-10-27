@@ -14,16 +14,16 @@ void analysis () {
    //TCutG *rumore  = (TCutG*)cut->Get("rumore_run5NEW");
    //TCutG *rumore  = (TCutG*)cut->Get("rumore_run6NEW");
    //TCutG *rumore  = (TCutG*)cut->Get("rumore_run7");
-   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run10");
-   TCutG *rumore  = (TCutG*)cut->Get("rumore_run11");
+   TCutG *rumore  = (TCutG*)cut->Get("rumore_run10");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run11");
 
    //const char* fileName = "TOF_run4NEW.asc";
    //const char* fileName = "TOF_run5NEW.asc";
    //const char* fileName = "TOF_run6NEW.asc";
    //const char* fileName = "TOF_run7.asc";   // questo run ha una risoluzione del tof piuttosto brutta
    //const char* fileName = "TOF_run8.asc"; // questo run sembra fare schifo (nella calibraz tof ci sono tre picchi)
-   //const char* fileName = "TOF_run10.asc";
-   const char* fileName = "TOF_run11.asc";
+   const char* fileName = "TOF_run10.asc";
+   //const char* fileName = "TOF_run11.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {

@@ -16,10 +16,10 @@ void analysis () {
    TCutG *picco_alta_energia  = (TCutG*)cut->Get("picco_alta_energia");
    TCutG *picco_bassa_energia  = (TCutG*)cut->Get("picco_bassa_energia");
 
-   //const char* fileName = "TOF2_run1_time.asc";
+   const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";	
-   const char* fileName = "TOF2_tot.asc";
+   //const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -33,7 +33,7 @@ void analysis () {
    Double_t energy, time;
 
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
-   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
+   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 1024., 0., 4096., 2048., 0., 4096.);
 
    while ( !inputFile.eof() ) {
          inputFile >> energy;
@@ -96,7 +96,7 @@ void analysis () {
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
    gaus1->SetParLimits(1, 2960., 2994.);
-   TF1 *gaus2 = new TF1("gaus2", "gaus", 3000., 3080.);
+   TF1 *gaus2 = new TF1("gaus2", "gaus", 3000., 3040.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
    total->SetParName(0, "Const1");

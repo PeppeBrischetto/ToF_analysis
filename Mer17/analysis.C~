@@ -37,7 +37,7 @@ void analysis () {
    Double_t energy, time;
 
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
-   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
+   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 1024., 0., 4096.);
 
    while ( !inputFile.eof() ) {
          inputFile >> energy;
