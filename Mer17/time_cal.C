@@ -61,30 +61,42 @@ void time_cal() {
    run11_fit->SetMarkerStyle(22);
    run11_fit->SetMarkerColor(kRed);
 
-   /*
-   TGraphErrors *ch_ener = new TGraphErrors( n, energy, channel, err_energy, err_channel );
-   ch_ener->SetName("Parametri del fit");
-   ch_ener->SetTitle("Calibrazione in Energia");
-   ch_ener->Draw("A*");
-   ch_ener->SetMarkerStyle(20);
-   ch_ener->GetXaxis()->SetTitle("E [keV]");
-   ch_ener->GetYaxis()->SetTitle("Canali");
-   ch_ener->GetXaxis()->SetTitleSize(0.05);
-   ch_ener->GetYaxis()->SetTitleSize(0.05);
-   ch_ener->GetXaxis()->SetTitleOffset(0.90);
-   ch_ener->GetYaxis()->SetTitleOffset(1.00);
-   ch_ener->Fit("pol1");
+
+   /*********** Adesso facciamo il fit sui dati dei soli run 10 e 11 ******************** */
+
+   Double_t canali[2] = {2512.83, 3412.62};
+   Double_t tempo[2] = {20., 30.};
+   Double_t err_canali[2] = {0.0163169, 0.0139570};
+   Double_t err_tempo[2] = {0., 0.};
+
+   TGraphErrors *run1011_fit = new TGraphErrors( 2, tempo, canali, err_tempo, err_canali );
+
+   TCanvas *c3 = new TCanvas("c3", "c3");
+   //c3->DrawFrame(0., 2400., 6., 3500.);
+   //c3->SetGrid();
+   
+   run1011_fit->SetName("Parametri del fit");
+   run1011_fit->SetTitle("Calibrazione in Tempo");
+   run1011_fit->Draw("A*");
+   run1011_fit->SetMarkerStyle(20);
+   run1011_fit->GetXaxis()->SetTitle("T [ns]");
+   run1011_fit->GetYaxis()->SetTitle("Canali");
+   run1011_fit->GetXaxis()->SetTitleSize(0.05);
+   run1011_fit->GetYaxis()->SetTitleSize(0.05);
+   run1011_fit->GetXaxis()->SetTitleOffset(0.90);
+   run1011_fit->GetYaxis()->SetTitleOffset(1.00);
+   run1011_fit->Fit("pol1");
 
    // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma
    //TF1 *retta = new TF1("retta", "0.560817*x-0.", 2000., 6000.);
    //retta->SetLineColor(kBlue);
    //retta->Draw("same");
 
-   TF1 *retta_cal = ch_ener->GetFunction("pol1");
+   TF1 *retta_cal = run1011_fit->GetFunction("pol1");
 
    retta_cal->SetParName(0, "b");
    retta_cal->SetParName(1, "a");
-   */
+   
    // *********  Qui di seguito si trovano le rette di best fit più o meno gli errori ********
    // IMPORTANTE: le ho commentate perché praticamente sono sovrapposte alla retta di best fit principale
    /*
@@ -103,8 +115,8 @@ void time_cal() {
 
    gStyle->SetOptFit(0111); // con queste opzioni stampo i valori dei parametri e i loro errori
 
-   /*
-   TPaveStats *st = (TPaveStats*)ch_ener->GetListOfFunctions()->FindObject("stats");
+   
+   TPaveStats *st = (TPaveStats*)run1011_fit->GetListOfFunctions()->FindObject("stats");
    st->SetX1NDC(0.63);
    st->SetX2NDC(0.9);
    st->SetY1NDC(0.42);
@@ -115,5 +127,5 @@ void time_cal() {
    legend->AddEntry( retta_cal, "Retta di calibrazione", "l" );
    legend->SetTextSize(0.035);
    legend->Draw();
-   */
+   
 }
