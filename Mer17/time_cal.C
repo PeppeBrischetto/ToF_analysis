@@ -94,8 +94,8 @@ void time_cal() {
 
    TF1 *retta_cal = run1011_fit->GetFunction("pol1");
 
-   retta_cal->SetParName(0, "b");
-   retta_cal->SetParName(1, "a");
+   retta_cal->SetParName(0, "q");
+   retta_cal->SetParName(1, "m");
    
    // *********  Qui di seguito si trovano le rette di best fit più o meno gli errori ********
    // IMPORTANTE: le ho commentate perché praticamente sono sovrapposte alla retta di best fit principale
@@ -124,6 +124,7 @@ void time_cal() {
    st->SetTextSize(0.037);
    
    TLegend *legend = new TLegend( 0.63, 0.3, 0.9, 0.4 );
+   legend->AddEntry( run1011_fit, "Punti sperimentali", "pe" );
    legend->AddEntry( retta_cal, "Retta di calibrazione", "l" );
    legend->SetTextSize(0.035);
    legend->Draw();

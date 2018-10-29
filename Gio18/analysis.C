@@ -33,7 +33,7 @@ void analysis () {
    Double_t energy, time;
 
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
-   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 1024., 0., 4096., 2048., 0., 4096.);
+   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
    while ( !inputFile.eof() ) {
          inputFile >> energy;
@@ -45,12 +45,12 @@ void analysis () {
    inputFile.seekg(0);
 
    while ( !inputFile.eof() ) {
-         inputFile >> energy;
          inputFile >> time;
-         //h_energy_time->Fill(energy, time);
-	 //if ( rumore->IsInside(energy, time) )
-	 if ( rumore->IsInside(energy, time) && picco_alta_energia->IsInside(energy, time) ) 
-            h_energy_time->Fill(energy, time);
+         inputFile >> energy;
+         //h_energy_time->Fill(time, energy);
+	 if ( rumore->IsInside(time, energy) )
+	 //if ( rumore->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
+            h_energy_time->Fill(time, energy);
 
    }
    gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
