@@ -64,7 +64,7 @@ void time_cal() {
    TLegend *legend1 = new TLegend( 0.63, 0.3, 0.9, 0.4 );
    legend1->AddEntry( run456_fit, "Merc dopo black out", "pe" );
    legend1->AddEntry( run10_fit, "Merc dopo 1a sostit foglio", "pe" );
-   legend1->AddEntry( run456_fit, "Merc dopo 2a sostit foglio", "pe" );
+   legend1->AddEntry( run11_fit, "Merc dopo 2a sostit foglio", "pe" );
    legend1->SetLineWidth(0);
    legend1->SetTextSize(0.035);
    legend1->Draw();
@@ -74,9 +74,9 @@ void time_cal() {
    Double_t canali[2] = {2512.83, 3412.62};
    Double_t tempo[2] = {20., 30.};
    Double_t err_canali[2] = {0.0163169, 0.0139570};
-   Double_t err_tempo[2] = {0., 0.};
+   Double_t err_tempo[2] = {0.011, 0.00882};
 
-   TGraphErrors *run1011_fit = new TGraphErrors( 2, tempo, canali, err_tempo, err_canali );
+   TGraphErrors *run1011_fit = new TGraphErrors( 2, canali, tempo, err_canali, err_tempo );
 
    TCanvas *c3 = new TCanvas("c3", "c3");
    //c3->DrawFrame(0., 2400., 6., 3500.);
@@ -86,8 +86,8 @@ void time_cal() {
    run1011_fit->SetTitle("Calibrazione in Tempo");
    run1011_fit->Draw("A*");
    run1011_fit->SetMarkerStyle(20);
-   run1011_fit->GetXaxis()->SetTitle("T [ns]");
-   run1011_fit->GetYaxis()->SetTitle("Canali");
+   run1011_fit->GetYaxis()->SetTitle("T [ns]");
+   run1011_fit->GetXaxis()->SetTitle("Canali");
    run1011_fit->GetXaxis()->SetTitleSize(0.05);
    run1011_fit->GetYaxis()->SetTitleSize(0.05);
    run1011_fit->GetXaxis()->SetTitleOffset(0.90);
@@ -124,13 +124,13 @@ void time_cal() {
 
    
    TPaveStats *st = (TPaveStats*)run1011_fit->GetListOfFunctions()->FindObject("stats");
-   st->SetX1NDC(0.63);
+   st->SetX1NDC(0.62);
    st->SetX2NDC(0.9);
-   st->SetY1NDC(0.42);
-   st->SetY2NDC(0.58);
+   st->SetY1NDC(0.38);
+   st->SetY2NDC(0.54);
    st->SetTextSize(0.037);
    
-   TLegend *legend = new TLegend( 0.63, 0.3, 0.9, 0.4 );
+   TLegend *legend = new TLegend( 0.62, 0.26, 0.9, 0.36 );
    legend->AddEntry( run1011_fit, "Punti sperimentali", "pe" );
    legend->AddEntry( retta_cal, "Retta di calibrazione", "l" );
    legend->SetTextSize(0.035);

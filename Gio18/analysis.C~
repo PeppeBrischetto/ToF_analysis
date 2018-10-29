@@ -16,9 +16,9 @@ void analysis () {
    TCutG *picco_alta_energia  = (TCutG*)cut->Get("picco_alta_energia");
    TCutG *picco_bassa_energia  = (TCutG*)cut->Get("picco_bassa_energia");
 
-   const char* fileName = "TOF2_run1_time.asc";
+   //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
-   //const char* fileName = "TOF2_run3_puls.asc";	
+   const char* fileName = "TOF2_run3_puls.asc";	
    //const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
@@ -49,7 +49,7 @@ void analysis () {
          inputFile >> energy;
          //h_energy_time->Fill(time, energy);
 	 //if ( rumore->IsInside(time, energy) )
-	 //if ( rumore->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
+	 if ( rumore->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
    }
@@ -172,5 +172,7 @@ void analysis () {
    h_time->GetYaxis()->SetTitle("Conteggi");
    h_time->GetYaxis()->SetTitleOffset(1.15);
    h_time->Draw();
+
+   
 
 }

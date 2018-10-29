@@ -48,8 +48,8 @@ void analysis () {
          inputFile >> time;
          inputFile >> energy;
          //h_energy_time->Fill(time, energy);
-	 if ( rumore->IsInside(time, energy) )
-	 //if ( rumore->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
+	 //if ( rumore->IsInside(time, energy) )
+	 if ( rumore->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
    }
@@ -172,5 +172,7 @@ void analysis () {
    h_time->GetYaxis()->SetTitle("Conteggi");
    h_time->GetYaxis()->SetTitleOffset(1.15);
    h_time->Draw();
+
+   
 
 }
