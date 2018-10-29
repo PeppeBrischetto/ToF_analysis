@@ -47,9 +47,9 @@ void analysis () {
    while ( !inputFile.eof() ) {
          inputFile >> time;
          inputFile >> energy;
-         //h_energy_time->Fill(energy, time);
-	 if ( rumore->IsInside(time, energy) )
-	 //if ( rumore->IsInside(energy, time) && picco_alta_energia->IsInside(energy, time) ) 
+         //h_energy_time->Fill(time, energy);
+	 //if ( rumore->IsInside(time, energy) )
+	 //if ( rumore->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
    }

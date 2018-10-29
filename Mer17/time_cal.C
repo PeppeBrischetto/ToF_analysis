@@ -61,6 +61,13 @@ void time_cal() {
    run11_fit->SetMarkerStyle(22);
    run11_fit->SetMarkerColor(kRed);
 
+   TLegend *legend1 = new TLegend( 0.63, 0.3, 0.9, 0.4 );
+   legend1->AddEntry( run456_fit, "Merc dopo black out", "pe" );
+   legend1->AddEntry( run10_fit, "Merc dopo 1a sostit foglio", "pe" );
+   legend1->AddEntry( run456_fit, "Merc dopo 2a sostit foglio", "pe" );
+   legend1->SetLineWidth(0);
+   legend1->SetTextSize(0.035);
+   legend1->Draw();
 
    /*********** Adesso facciamo il fit sui dati dei soli run 10 e 11 ******************** */
 
@@ -85,7 +92,7 @@ void time_cal() {
    run1011_fit->GetYaxis()->SetTitleSize(0.05);
    run1011_fit->GetXaxis()->SetTitleOffset(0.90);
    run1011_fit->GetYaxis()->SetTitleOffset(1.00);
-   run1011_fit->Fit("pol1");
+   run1011_fit->Fit("pol1", "M");
 
    // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma
    //TF1 *retta = new TF1("retta", "0.560817*x-0.", 2000., 6000.);
