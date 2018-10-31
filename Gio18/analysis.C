@@ -12,14 +12,15 @@ void analysis () {
    TFile *cut = new TFile("cuts_file.root");
    
    //TCutG *prova  = (TCutG*)cut->Get("prova");
-   TCutG *rumore  = (TCutG*)cut->Get("rumore");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore");  // Questo taglio dice Politi che non conviene
    TCutG *picco_alta_energia  = (TCutG*)cut->Get("picco_alta_energia");
    TCutG *picco_bassa_energia  = (TCutG*)cut->Get("picco_bassa_energia");
+   TCutG *rumore_new  = (TCutG*)cut->Get("rumore_new"); // Questo è il taglio definito dopo aver parlato con Politi
 
-   const char* fileName = "TOF2_run1_time.asc";
+   //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";	
-   //const char* fileName = "TOF2_tot.asc";
+   const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -48,8 +49,8 @@ void analysis () {
          inputFile >> time;
          inputFile >> energy;
          //h_energy_time->Fill(time, energy);
-	 //if ( rumore->IsInside(time, energy) )
-	 if ( rumore->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
+	 if ( rumore_new->IsInside(time, energy) )
+	 //if ( rumore_new->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
    }
@@ -96,7 +97,7 @@ void analysis () {
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
    gaus1->SetParLimits(1, 2960., 2994.);
-   TF1 *gaus2 = new TF1("gaus2", "gaus", 3000., 3040.);
+   TF1 *gaus2 = new TF1("gaus2", "gaus", 3007., 3040.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
    total->SetParName(0, "Const1");
@@ -107,11 +108,11 @@ void analysis () {
    total->SetParName(5, "#sigma2");
 
    gaus1->SetLineColor(kBlue + 2);
-   gaus2->SetLineColor(kGreen);
+   gaus2->SetLineColor(kOrange);
    Double_t par[6];
 
-   h_ener->Fit(gaus1,"RNOM");
-   h_ener_clone1->Fit(gaus2,"RNOM","sames");
+   h_ener->Fit(gaus1,"RM");
+   h_ener_clone1->Fit(gaus2,"RM","sames");
 
    gaus1->GetParameters(&par[0]);
    gaus2->GetParameters(&par[3]);
