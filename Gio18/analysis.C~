@@ -36,6 +36,10 @@ void analysis () {
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 3800., 99.5, 7400.);
+
+   TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2048., 0., 7441.);
+
    while ( !inputFile.eof() ) {
          inputFile >> energy;
          h_energy->Fill(energy);
@@ -52,6 +56,10 @@ void analysis () {
 	 if ( rumore_new->IsInside(time, energy) )
 	 //if ( rumore_new->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
+
+         h_energy_time_cal->Fill(time, (energy + 55.8416)/0.561032 );
+
+         h_energy_time_cal2->Fill(time, energy/0.550482 );
 
    }
    gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
@@ -97,7 +105,7 @@ void analysis () {
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
    gaus1->SetParLimits(1, 2960., 2994.);
-   TF1 *gaus2 = new TF1("gaus2", "gaus", 3007., 3040.);
+   TF1 *gaus2 = new TF1("gaus2", "gaus", 3006., 3040.);
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
    total->SetParName(0, "Const1");
@@ -174,6 +182,100 @@ void analysis () {
    h_time->GetYaxis()->SetTitleOffset(1.15);
    h_time->Draw();
 
+   TCanvas *c5 = new TCanvas("c5", "c5");
+   h_energy_time_cal->GetXaxis()->SetTitle("T [ch]");
+   h_energy_time_cal->GetXaxis()->SetTitleSize(0.05);
+   h_energy_time_cal->GetXaxis()->SetTitleOffset(0.92);
+   h_energy_time_cal->GetYaxis()->SetTitle("E [keV]");
+   h_energy_time_cal->GetYaxis()->SetTitleSize(0.05);
+   h_energy_time_cal->GetYaxis()->SetTitleOffset(0.93);
+   //h_energy_time_cal->Draw("colz");
+  
+   TH1D *h_ener_cal = h_energy_time_cal->ProjectionY();
+
+   TCanvas *c6 = new TCanvas("c6", "c6");
+   //c3->SetGrid();
+   h_ener_cal->SetTitle("Spettro energetico");
+   h_ener_cal->GetYaxis()->SetTitle("Conteggi");
+   h_ener_cal->GetYaxis()->SetTitleOffset(1.15);
+   h_ener_cal->SetLineWidth(1);
+   //h_ener_cal->SetLineColor(kAzure - 8);
+   //h_ener_cal->SetFillColor(kAzure - 8);
+   //h_ener_cal->SetFillStyle(3002);
+   h_ener_cal->Draw();
+
+   TCanvas *c7 = new TCanvas("c7", "c7");
+   h_energy_time_cal2->GetXaxis()->SetTitle("T [ch]");
+   h_energy_time_cal2->GetXaxis()->SetTitleSize(0.05);
+   h_energy_time_cal2->GetXaxis()->SetTitleOffset(0.92);
+   h_energy_time_cal2->GetYaxis()->SetTitle("E [keV]");
+   h_energy_time_cal2->GetYaxis()->SetTitleSize(0.05);
+   h_energy_time_cal2->GetYaxis()->SetTitleOffset(0.93);
+   h_energy_time_cal2->Draw("colz");
+  
+   TH1D *h_ener_cal2 = h_energy_time_cal2->ProjectionY();
+
+   TCanvas *c8 = new TCanvas("c8", "c8");
+   //c3->SetGrid();
+   h_ener_cal2->SetTitle("Spettro energetico");
+   h_ener_cal2->GetYaxis()->SetTitle("Conteggi");
+   h_ener_cal2->GetYaxis()->SetTitleOffset(1.15);
+   h_ener_cal2->SetLineWidth(1);
+   //h_ener_cal->SetLineColor(kAzure - 8);
+   //h_ener_cal->SetFillColor(kAzure - 8);
+   //h_ener_cal->SetFillStyle(3002);
+   h_ener_cal2->Draw();
+
+   TH1D *h_ener_cal2_clone1 = (TH1D*)( h_ener_cal2->Clone() );
+   TH1D *h_ener_cal2_clone2 = (TH1D*)( h_ener_cal2->Clone() );
    
+   h_ener_cal2_clone1->SetName("Fit picco alta E");
+   h_ener_cal2_clone2->SetName("Parametri funzione a due gaussiane");
+
+   /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
+   
+   TF1 *gaus3 = new TF1("gaus1", "gaus", 5320., 5440.);
+   gaus3->SetParLimits(1, 5410., 5422.);
+   TF1 *gaus4 = new TF1("gaus2", "gaus", 5458., 5600.);
+
+   TF1 *total1 = new TF1("total", "gaus(0) + gaus(3)", 5300., 5600.);
+   total1->SetParName(0, "Const1");
+   total1->SetParName(1, "#mu1");
+   total1->SetParName(2, "#sigma1");
+   total1->SetParName(3, "Const2");
+   total1->SetParName(4, "#mu2");
+   total1->SetParName(5, "#sigma2");
+
+   gaus3->SetLineColor(kBlue + 2);
+   gaus4->SetLineColor(kOrange);
+   Double_t par2[6];
+
+   h_ener_cal2->Fit(gaus3,"RM");
+   h_ener_cal2_clone1->Fit(gaus4,"RM","sames");
+
+   gaus3->GetParameters(&par2[0]);
+   gaus4->GetParameters(&par2[3]);
+ 
+   total1->SetParameters(par2);
+
+   h_ener_cal2_clone2->Fit(total1,"RM","sames");
+
+   TF1 *gaus_draw3 = new TF1("gaus_draw3", "gaus", 5400., 5600.);
+   gaus_draw3->FixParameter( 0, total1->GetParameter(0) );
+   gaus_draw3->FixParameter( 1, total1->GetParameter(1) );
+   gaus_draw3->FixParameter( 2, total1->GetParameter(2) );
+   gaus_draw3->SetLineColor(kOrange + 1);
+   gaus_draw3->SetLineStyle(2);
+   gaus_draw3->Draw("same");
+  
+   TF1 *gaus_draw4 = new TF1("gaus_draw4", "gaus", 5400., 5600.);
+   gaus_draw4->FixParameter( 0, total1->GetParameter(3) );
+   gaus_draw4->FixParameter( 1, total1->GetParameter(4) );
+   gaus_draw4->FixParameter( 2, total1->GetParameter(5) );
+   gaus_draw4->SetLineColor(kGreen-3);
+   gaus_draw4->SetLineStyle(9);
+   gaus_draw4->Draw("same");
+
+   gPad->Update();
 
 }
