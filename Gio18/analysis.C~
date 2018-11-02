@@ -304,7 +304,7 @@ void analysis () {
    
    TF1 *gaus3 = new TF1("gaus3", "gaus", 5320., 5440.);
    gaus3->SetParLimits(1, 5410., 5425.);
-   TF1 *gaus4 = new TF1("gaus4", "gaus", 5458., 5600.);
+   TF1 *gaus4 = new TF1("gaus4", "gaus", 5450., 5600.);
 
    TF1 *total1 = new TF1("total1", "gaus(0) + gaus(3)", 5300., 5600.);
    total1->SetParName(0, "Const1");
@@ -324,7 +324,7 @@ void analysis () {
    Double_t sigma = gaus4->GetParameter(2);
    //std::cout << "La sigma di gaus4 e' " << sigma << std::endl;
 
-   gaus3->SetParLimits(2, sigma - 0.10*sigma, sigma + 0.10*sigma);
+   //gaus3->SetParLimits(2, sigma - 0.05*sigma, sigma + 0.05*sigma);
    //gaus3->FixParameter(2, sigma);
    h_ener_cal2->Fit(gaus3,"RM");
 
@@ -333,7 +333,10 @@ void analysis () {
  
    total1->SetParameters(par2);
    //total1->SetParLimits(1, 5410., 5422.);
-   total1->SetParLimits(2, sigma - 0.10*sigma, sigma + 0.10*sigma);
+   total1->SetParLimits(2, sigma - 0.005*sigma, sigma + 0.005*sigma);
+   //total1->FixParameter(2, 20.11);
+   total1->SetParLimits(5, sigma - 0.005*sigma, sigma + 0.005*sigma);
+   //total1->FixParameter(5, sigma);
 
    h_ener_cal2_clone2->Fit(total1,"RM","sames");
 
