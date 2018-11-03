@@ -39,7 +39,7 @@ void analysis () {
 
    TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2048., 99.5, 7400.);
 
-   TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2068., 0., 7440.);
+   TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
 
    while ( !inputFile.eof() ) {
          inputFile >> energy;
@@ -304,6 +304,7 @@ void analysis () {
    
    TF1 *gaus3 = new TF1("gaus3", "gaus", 5320., 5440.);
    gaus3->SetParLimits(1, 5400., 5430.);
+   //gaus3->SetParLimits(2, 18.53, 18.54);
    TF1 *gaus4 = new TF1("gaus4", "gaus", 5448., 5600.);
    //gaus4->SetParLimits(1, 5460., 5466.);
 
@@ -336,6 +337,7 @@ void analysis () {
    //total1->SetParLimits(1, 5410., 5422.);
    total1->SetParLimits(2, sigma - 0.001*sigma, sigma + 0.001*sigma);
    //total1->FixParameter(2, 20.11);
+   //total1->SetParLimits(4, 5462., 5463.);
    total1->SetParLimits(5, sigma - 0.001*sigma, sigma + 0.001*sigma);
    //total1->FixParameter(5, sigma);
 
