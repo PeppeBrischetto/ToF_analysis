@@ -18,10 +18,10 @@ void analysis () {
    TCutG *rumore_new  = (TCutG*)cut->Get("rumore_new"); // Questo è il taglio definito dopo aver parlato con Politi
    TCutG *rumore_cal  = (TCutG*)cut->Get("rumore_cal"); // Questo è il taglio sullo spettro in energia calibrato
 
-   //const char* fileName = "TOF2_run1_time.asc";
+   const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";	
-   const char* fileName = "TOF2_tot.asc";
+   //const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -39,7 +39,7 @@ void analysis () {
 
    TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2048., 99.5, 7400.);
 
-   TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2048., 0., 7441.);
+   TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2300., 0., 7441.);
 
    while ( !inputFile.eof() ) {
          inputFile >> energy;
