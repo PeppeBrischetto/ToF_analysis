@@ -18,10 +18,10 @@ void analysis () {
    TCutG *rumore_new  = (TCutG*)cut->Get("rumore_new"); // Questo è il taglio definito dopo aver parlato con Politi
    TCutG *rumore_cal  = (TCutG*)cut->Get("rumore_cal"); // Questo è il taglio sullo spettro in energia calibrato
 
-   const char* fileName = "TOF2_run1_time.asc";
+   //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";	
-   //const char* fileName = "TOF2_tot.asc";
+   const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -39,7 +39,7 @@ void analysis () {
 
    TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2048., 99.5, 7400.);
 
-   TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2300., 0., 7441.);
+   TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2068., 0., 7440.);
 
    while ( !inputFile.eof() ) {
          inputFile >> energy;
@@ -303,8 +303,9 @@ void analysis () {
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
    TF1 *gaus3 = new TF1("gaus3", "gaus", 5320., 5440.);
-   gaus3->SetParLimits(1, 5410., 5425.);
-   TF1 *gaus4 = new TF1("gaus4", "gaus", 5450., 5600.);
+   gaus3->SetParLimits(1, 5400., 5430.);
+   TF1 *gaus4 = new TF1("gaus4", "gaus", 5448., 5600.);
+   //gaus4->SetParLimits(1, 5460., 5466.);
 
    TF1 *total1 = new TF1("total1", "gaus(0) + gaus(3)", 5300., 5600.);
    total1->SetParName(0, "Const1");
@@ -324,7 +325,7 @@ void analysis () {
    Double_t sigma = gaus4->GetParameter(2);
    //std::cout << "La sigma di gaus4 e' " << sigma << std::endl;
 
-   //gaus3->SetParLimits(2, sigma - 0.05*sigma, sigma + 0.05*sigma);
+   //gaus3->SetParLimits(2, sigma - 0.001*sigma, sigma + 0.001*sigma);
    //gaus3->FixParameter(2, sigma);
    h_ener_cal2->Fit(gaus3,"RM");
 
