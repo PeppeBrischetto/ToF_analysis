@@ -37,7 +37,7 @@ void analysis () {
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2048., 99.5, 7400.);
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2050., 99.5, 7400.);
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
 
@@ -186,7 +186,7 @@ void analysis () {
    h_time->Draw();
 
    /* ***** Qui comincia la parte con la calibrazione in energia con b!=0 *******  */
-   /*
+   
    TCanvas *c5 = new TCanvas("c5", "c5");
    h_energy_time_cal->GetXaxis()->SetTitle("T [ch]");
    h_energy_time_cal->GetXaxis()->SetTitleSize(0.05);
@@ -217,7 +217,7 @@ void analysis () {
 
    TF1 *gaus5 = new TF1("gaus5", "gaus", 5320., 5440.);
    gaus5->SetParLimits(1, 5410., 5425.);
-   TF1 *gaus6 = new TF1("gaus6", "gaus", 5458., 5600.);
+   TF1 *gaus6 = new TF1("gaus6", "gaus", 5446., 5600.);
 
    TF1 *total2 = new TF1("total2", "gaus(0) + gaus(3)", 5300., 5600.);
    total2->SetParName(0, "Const1");
@@ -237,7 +237,7 @@ void analysis () {
    Double_t sigma1 = gaus6->GetParameter(2);
    //std::cout << "La sigma di gaus4 e' " << sigma1 << std::endl;
 
-   gaus5->SetParLimits(2, sigma1 - 0.10*sigma1, sigma1 + 0.10*sigma1);
+   gaus5->SetParLimits(2, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
    //gaus5->FixParameter(2, sigma1);
    h_ener_cal->Fit(gaus5,"RM");
 
@@ -246,11 +246,12 @@ void analysis () {
  
    total2->SetParameters(par3);
    //total2->SetParLimits(1, 5410., 5422.);
-   total2->SetParLimits(2, sigma1 - 0.10*sigma1, sigma1 + 0.10*sigma1);
+   total2->SetParLimits(2, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
+   total2->SetParLimits(5, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
 
    h_ener_cal_clone2->Fit(total2,"RM","sames");
 
-   TF1 *gaus_draw5 = new TF1("gaus_draw5", "gaus", 5400., 5600.);
+   TF1 *gaus_draw5 = new TF1("gaus_draw5", "gaus", 5350., 5500.);
    gaus_draw5->FixParameter( 0, total2->GetParameter(0) );
    gaus_draw5->FixParameter( 1, total2->GetParameter(1) );
    gaus_draw5->FixParameter( 2, total2->GetParameter(2) );
@@ -268,10 +269,10 @@ void analysis () {
 
    gPad->Update();
 
-   */
+   
 
    /* ***** Qui comincia la parte con la calibrazione in energia con b=0 *******  */
-
+   /*
    TCanvas *c7 = new TCanvas("c7", "c7");
    h_energy_time_cal2->GetXaxis()->SetTitle("T [ch]");
    h_energy_time_cal2->GetXaxis()->SetTitleSize(0.05);
@@ -300,8 +301,6 @@ void analysis () {
    h_ener_cal2_clone1->SetName("Fit picco alta E");
    h_ener_cal2_clone2->SetName("Parametri funzione a due gaussiane");
 
-   /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
-   
    TF1 *gaus3 = new TF1("gaus3", "gaus", 5320., 5440.);
    gaus3->SetParLimits(1, 5400., 5430.);
    //gaus3->SetParLimits(2, 18.53, 18.54);
@@ -360,5 +359,5 @@ void analysis () {
    gaus_draw4->Draw("same");
 
    gPad->Update();
-
+   */
 }
