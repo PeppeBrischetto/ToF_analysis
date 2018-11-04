@@ -37,7 +37,7 @@ void analysis () {
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2050., 99.5, 7400.);
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.);
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
 
@@ -246,6 +246,7 @@ void analysis () {
  
    total2->SetParameters(par3);
    //total2->SetParLimits(1, 5410., 5422.);
+   //total2->SetParLimits(2, sigma1 - 0.1*sigma1, sigma1 - 0.004*sigma1);
    total2->SetParLimits(2, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
    total2->SetParLimits(5, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
 
