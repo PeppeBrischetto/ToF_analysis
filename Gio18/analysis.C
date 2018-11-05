@@ -37,7 +37,7 @@ void analysis () {
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.);
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2050., 99.5, 7400.);
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
 
@@ -217,7 +217,7 @@ void analysis () {
 
    TF1 *gaus5 = new TF1("gaus5", "gaus", 5320., 5440.);
    gaus5->SetParLimits(1, 5410., 5425.);
-   TF1 *gaus6 = new TF1("gaus6", "gaus", 5446., 5600.);
+   TF1 *gaus6 = new TF1("gaus6", "gaus", 5444., 5600.);
 
    TF1 *total2 = new TF1("total2", "gaus(0) + gaus(3)", 5300., 5600.);
    total2->SetParName(0, "Const1");

@@ -22,7 +22,7 @@ void calibration() {
    const Int_t m = 2;
    Double_t channel[m] = {1203., 3009.};  // Stimato con il crosshair al centro del bin
    Double_t energy[m] = {2243.796, 5462.863};
-   Double_t err_channel[m] = {76, 28};
+   Double_t err_channel[m] = {76., 28.};
    Double_t err_energy[m] = {0., 0.};
 
    TCanvas *c1 = new TCanvas("c1", "c1");
@@ -67,7 +67,7 @@ void calibration() {
    retta2->Draw("same");
    */
 
-   retta_cal->FixParameter(0, 0.);
+   //retta_cal->FixParameter(0, 0.);
    ch_ener->Fit(retta_cal, "M");
 
    gStyle->SetOptFit(0111); // con queste opzioni stampo i valori dei parametri e i loro errori

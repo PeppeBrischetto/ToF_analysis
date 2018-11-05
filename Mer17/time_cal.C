@@ -71,9 +71,9 @@ void time_cal() {
 
    /*********** Adesso facciamo il fit sui dati dei soli run 10 e 11 ******************** */
 
-   Double_t canali[2] = {2512.83, 3412.62};
+   Double_t canali[2] = {2513, 3413};
    Double_t tempo[2] = {20., 30.};
-   Double_t err_canali[2] = {0.0163169, 0.0139570};
+   Double_t err_canali[2] = {4., 2.};
    Double_t err_tempo[2] = {0.011, 0.00882};
 
    TGraphErrors *run1011_fit = new TGraphErrors( 2, canali, tempo, err_canali, err_tempo );
@@ -203,4 +203,71 @@ void time_cal() {
    legend2->AddEntry( Retta_cal, "Retta di calibrazione", "l" );
    legend2->SetTextSize(0.035);
    legend2->Draw();
+
+   /*********** Adesso facciamo il fit sui dati dei run 4+11, 6+10 e 5 ******************** */
+
+   Double_t Canali1[3] = {2513., 2973., 3411.};
+   Double_t Tempo1[3] = {20., 25., 30.};
+   Double_t Err_canali1[3] = {4., 2., 4.};
+   Double_t Err_tempo1[3] = {0.011, 0.00882, 0.};
+
+   TGraphErrors *Run_fit1 = new TGraphErrors( 3, Tempo1, Canali1, Err_tempo1, Err_canali1 );
+
+   TCanvas *c5 = new TCanvas("c5", "c5");
+   //c5->DrawFrame(0., 2400., 6., 3500.);
+   //c5->SetGrid();
+   
+   Run_fit1->SetName("Parametri del fit");
+   Run_fit1->SetTitle("Calibrazione in Tempo");
+   Run_fit1->Draw("A*");
+   Run_fit1->SetMarkerStyle(20);
+   Run_fit1->GetXaxis()->SetTitle("T [ns]");
+   Run_fit1->GetYaxis()->SetTitle("Canali");
+   Run_fit1->GetXaxis()->SetTitleSize(0.05);
+   Run_fit1->GetYaxis()->SetTitleSize(0.05);
+   Run_fit1->GetXaxis()->SetTitleOffset(0.90);
+   Run_fit1->GetYaxis()->SetTitleOffset(1.00);
+   Run_fit1->Fit("pol1", "M");
+
+   // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma
+   //TF1 *retta = new TF1("retta", "0.560817*x-0.", 2000., 6000.);
+   //retta->SetLineColor(kBlue);
+   //retta->Draw("same");
+
+   TF1 *Retta_cal1 = Run_fit1->GetFunction("pol1");
+
+   Retta_cal1->SetParName(0, "q");
+   Retta_cal1->SetParName(1, "m");
+   
+   // *********  Qui di seguito si trovano le rette di best fit più o meno gli errori ********
+   // IMPORTANTE: le ho commentate perché praticamente sono sovrapposte alla retta di best fit principale
+   /*
+   TF1 *retta1 = new TF1("retta1", "pol1", 2000., 6000.);
+   retta1->SetLineColor(kGreen);
+   retta1->FixParameter(0, (retta_cal->GetParameter(0)) + (retta_cal->GetParError(0)) );
+   retta1->FixParameter(1, (retta_cal->GetParameter(1)) + (retta_cal->GetParError(1)) );
+   retta1->Draw("same");
+
+   TF1 *retta2 = new TF1("retta2", "pol1", 2000., 6000.);
+   retta2->SetLineColor(kOrange);
+   retta2->FixParameter(0, (retta_cal->GetParameter(0)) - (retta_cal->GetParError(0)) );
+   retta2->FixParameter(1, (retta_cal->GetParameter(1)) - (retta_cal->GetParError(1)) );
+   retta2->Draw("same");
+   */
+
+   gStyle->SetOptFit(0111); // con queste opzioni stampo i valori dei parametri e i loro errori
+
+   
+   TPaveStats *st2 = (TPaveStats*)Run_fit1->GetListOfFunctions()->FindObject("stats");
+   st2->SetX1NDC(0.62);
+   st2->SetX2NDC(0.9);
+   st2->SetY1NDC(0.38);
+   st2->SetY2NDC(0.54);
+   st2->SetTextSize(0.037);
+   
+   TLegend *legend3 = new TLegend( 0.62, 0.26, 0.9, 0.36 );
+   legend3->AddEntry( Run_fit1, "Punti sperimentali", "pe" );
+   legend3->AddEntry( Retta_cal1, "Retta di calibrazione", "l" );
+   legend3->SetTextSize(0.035);
+   legend3->Draw();
 }
