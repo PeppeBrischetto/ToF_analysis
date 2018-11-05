@@ -207,8 +207,10 @@ void time_cal() {
    /*********** Adesso facciamo il fit sui dati dei run 4+11, 6+10 e 5 ******************** */
 
    Double_t Canali1[3] = {2513., 2973., 3411.};
+   //Double_t Canali1[3] = {2512., 2972., 3411.};  // Questo se vuoi usare media e dev std della media
    Double_t Tempo1[3] = {20., 25., 30.};
    Double_t Err_canali1[3] = {4., 2., 4.};
+   //Double_t Err_canali1[3] = {0.014, 0.022, 0.014};       // Questo se vuoi usare media e dev std della media
    Double_t Err_tempo1[3] = {0.011, 0.00882, 0.};
 
    TGraphErrors *Run_fit1 = new TGraphErrors( 3, Tempo1, Canali1, Err_tempo1, Err_canali1 );

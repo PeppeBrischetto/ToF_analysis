@@ -25,8 +25,8 @@ void analysis () {
    //const char* fileName = "TOF_run7.asc";   // questo run ha una risoluzione del tof piuttosto brutta
    //const char* fileName = "TOF_run8.asc"; // questo run sembra fare schifo (nella calibraz tof ci sono tre picchi)
    //const char* fileName = "TOF_run10.asc";
-   const char* fileName = "TOF_run6+10.asc";
-   //const char* fileName = "TOF_run4+11.asc";
+   //const char* fileName = "TOF_run6+10.asc";
+   const char* fileName = "TOF_run4+11.asc";
    //const char* fileName = "TOF_run11.asc";
    ifstream inputFile;
    inputFile.open(fileName);
@@ -41,7 +41,7 @@ void analysis () {
    Double_t energy, time;
 
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
-   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 4096., 0., 4096.);
+   TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
    while ( !inputFile.eof() ) {
          inputFile >> energy;
@@ -56,7 +56,7 @@ void analysis () {
          inputFile >> energy;
          inputFile >> time;
          //h_energy_time->Fill(energy, time);
-	 //if ( rumore->IsInside(time, energy) ) 
+	 if ( rumore->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
    }
