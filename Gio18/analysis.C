@@ -37,7 +37,7 @@ void analysis () {
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2050., 99.5, 7400.);
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.);
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
 

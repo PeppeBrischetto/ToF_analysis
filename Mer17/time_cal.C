@@ -69,9 +69,9 @@ void time_cal() {
    legend1->SetTextSize(0.035);
    legend1->Draw();
 
-   /*********** Adesso facciamo il fit sui dati dei soli run 10 e 11 ******************** */
+   /* ********** Adesso facciamo il fit sui dati dei soli run 10 e 11 ******************** */
 
-   Double_t canali[2] = {2513, 3413};
+   Double_t canali[2] = {2513., 3413.};
    Double_t tempo[2] = {20., 30.};
    Double_t err_canali[2] = {4., 2.};
    Double_t err_tempo[2] = {0.22, 0.2646};
@@ -137,7 +137,7 @@ void time_cal() {
    legend->Draw();
    
 
-   /*********** Adesso facciamo il fit sui dati di tutti i run ******************** */
+   /* ********** Adesso facciamo il fit sui dati di tutti i run ******************** */
    /*
    Double_t Canali[5] = {3411., 2973., 2511., 2513., 3413.};
    Double_t Tempo[5] = {30., 25., 20., 20., 30.};
@@ -204,7 +204,7 @@ void time_cal() {
    legend2->SetTextSize(0.035);
    legend2->Draw();
    */
-   /*********** Adesso facciamo il fit sui dati dei run 4+11, 6+10 e 5 ******************** */
+   /* ********** Adesso facciamo il fit sui dati dei run 4+11, 6+10 e 5 ******************** */
 
    Double_t Canali1[3] = {2513., 2973., 3411.};
    //Double_t Canali1[3] = {2512., 2972., 3411.};  // Questo se vuoi usare media e dev std della media
