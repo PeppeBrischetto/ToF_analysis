@@ -74,32 +74,32 @@ void time_cal() {
    Double_t canali[2] = {2513, 3413};
    Double_t tempo[2] = {20., 30.};
    Double_t err_canali[2] = {4., 2.};
-   Double_t err_tempo[2] = {0.011, 0.00882};
+   Double_t err_tempo[2] = {0.22, 0.2646};
 
-   TGraphErrors *run1011_fit = new TGraphErrors( 2, canali, tempo, err_canali, err_tempo );
+   TGraphErrors *run1011_cal = new TGraphErrors( 2, canali, tempo, err_canali, err_tempo );
 
    TCanvas *c3 = new TCanvas("c3", "c3");
    //c3->DrawFrame(0., 2400., 6., 3500.);
    //c3->SetGrid();
    
-   run1011_fit->SetName("Parametri del fit");
-   run1011_fit->SetTitle("Calibrazione in Tempo");
-   run1011_fit->Draw("A*");
-   run1011_fit->SetMarkerStyle(20);
-   run1011_fit->GetYaxis()->SetTitle("T [ns]");
-   run1011_fit->GetXaxis()->SetTitle("Canali");
-   run1011_fit->GetXaxis()->SetTitleSize(0.05);
-   run1011_fit->GetYaxis()->SetTitleSize(0.05);
-   run1011_fit->GetXaxis()->SetTitleOffset(0.90);
-   run1011_fit->GetYaxis()->SetTitleOffset(1.00);
-   run1011_fit->Fit("pol1", "M");
+   run1011_cal->SetName("Parametri del fit");
+   run1011_cal->SetTitle("Calibrazione in Tempo");
+   run1011_cal->Draw("A*");
+   run1011_cal->SetMarkerStyle(20);
+   run1011_cal->GetYaxis()->SetTitle("T [ns]");
+   run1011_cal->GetXaxis()->SetTitle("Canali");
+   run1011_cal->GetXaxis()->SetTitleSize(0.05);
+   run1011_cal->GetYaxis()->SetTitleSize(0.05);
+   run1011_cal->GetXaxis()->SetTitleOffset(0.90);
+   run1011_cal->GetYaxis()->SetTitleOffset(1.00);
+   run1011_cal->Fit("pol1", "M");
 
    // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma
    //TF1 *retta = new TF1("retta", "0.560817*x-0.", 2000., 6000.);
    //retta->SetLineColor(kBlue);
    //retta->Draw("same");
 
-   TF1 *retta_cal = run1011_fit->GetFunction("pol1");
+   TF1 *retta_cal = run1011_cal->GetFunction("pol1");
 
    retta_cal->SetParName(0, "q");
    retta_cal->SetParName(1, "m");
@@ -123,7 +123,7 @@ void time_cal() {
    gStyle->SetOptFit(0111); // con queste opzioni stampo i valori dei parametri e i loro errori
 
    
-   TPaveStats *st = (TPaveStats*)run1011_fit->GetListOfFunctions()->FindObject("stats");
+   TPaveStats *st = (TPaveStats*)run1011_cal->GetListOfFunctions()->FindObject("stats");
    st->SetX1NDC(0.62);
    st->SetX2NDC(0.9);
    st->SetY1NDC(0.38);
@@ -131,7 +131,7 @@ void time_cal() {
    st->SetTextSize(0.037);
    
    TLegend *legend = new TLegend( 0.62, 0.26, 0.9, 0.36 );
-   legend->AddEntry( run1011_fit, "Punti sperimentali", "pe" );
+   legend->AddEntry( run1011_cal, "Punti sperimentali", "pe" );
    legend->AddEntry( retta_cal, "Retta di calibrazione", "l" );
    legend->SetTextSize(0.035);
    legend->Draw();
