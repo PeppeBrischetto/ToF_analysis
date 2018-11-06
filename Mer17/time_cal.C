@@ -91,7 +91,7 @@ void time_cal() {
    run1011_cal->GetXaxis()->SetTitleSize(0.05);
    run1011_cal->GetYaxis()->SetTitleSize(0.05);
    run1011_cal->GetXaxis()->SetTitleOffset(0.90);
-   run1011_cal->GetYaxis()->SetTitleOffset(1.00);
+   run1011_cal->GetYaxis()->SetTitleOffset(0.85);
    run1011_cal->Fit("pol1", "M");
 
    // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma
@@ -138,7 +138,7 @@ void time_cal() {
    
 
    /*********** Adesso facciamo il fit sui dati di tutti i run ******************** */
-
+   /*
    Double_t Canali[5] = {3411., 2973., 2511., 2513., 3413.};
    Double_t Tempo[5] = {30., 25., 20., 20., 30.};
    Double_t Err_canali[5] = {4., 2., 2., 4., 2.};
@@ -174,20 +174,20 @@ void time_cal() {
    
    // *********  Qui di seguito si trovano le rette di best fit più o meno gli errori ********
    // IMPORTANTE: le ho commentate perché praticamente sono sovrapposte alla retta di best fit principale
-   /*
-   TF1 *retta1 = new TF1("retta1", "pol1", 2000., 6000.);
-   retta1->SetLineColor(kGreen);
-   retta1->FixParameter(0, (retta_cal->GetParameter(0)) + (retta_cal->GetParError(0)) );
-   retta1->FixParameter(1, (retta_cal->GetParameter(1)) + (retta_cal->GetParError(1)) );
-   retta1->Draw("same");
+   
+   //TF1 *retta1 = new TF1("retta1", "pol1", 2000., 6000.);
+   //retta1->SetLineColor(kGreen);
+   //retta1->FixParameter(0, (retta_cal->GetParameter(0)) + (retta_cal->GetParError(0)) );
+   //retta1->FixParameter(1, (retta_cal->GetParameter(1)) + (retta_cal->GetParError(1)) );
+   //retta1->Draw("same");
 
-   TF1 *retta2 = new TF1("retta2", "pol1", 2000., 6000.);
-   retta2->SetLineColor(kOrange);
-   retta2->FixParameter(0, (retta_cal->GetParameter(0)) - (retta_cal->GetParError(0)) );
-   retta2->FixParameter(1, (retta_cal->GetParameter(1)) - (retta_cal->GetParError(1)) );
-   retta2->Draw("same");
-   */
-
+   //TF1 *retta2 = new TF1("retta2", "pol1", 2000., 6000.);
+   //retta2->SetLineColor(kOrange);
+   //retta2->FixParameter(0, (retta_cal->GetParameter(0)) - (retta_cal->GetParError(0)) );
+   //retta2->FixParameter(1, (retta_cal->GetParameter(1)) - (retta_cal->GetParError(1)) );
+   //retta2->Draw("same");
+   
+   
    gStyle->SetOptFit(0111); // con queste opzioni stampo i valori dei parametri e i loro errori
 
    
@@ -203,7 +203,7 @@ void time_cal() {
    legend2->AddEntry( Retta_cal, "Retta di calibrazione", "l" );
    legend2->SetTextSize(0.035);
    legend2->Draw();
-
+   */
    /*********** Adesso facciamo il fit sui dati dei run 4+11, 6+10 e 5 ******************** */
 
    Double_t Canali1[3] = {2513., 2973., 3411.};
@@ -211,9 +211,9 @@ void time_cal() {
    Double_t Tempo1[3] = {20., 25., 30.};
    Double_t Err_canali1[3] = {4., 2., 4.};
    //Double_t Err_canali1[3] = {0.014, 0.022, 0.014};       // Questo se vuoi usare media e dev std della media
-   Double_t Err_tempo1[3] = {0.011, 0.00882, 0.};
+   Double_t Err_tempo1[3] = {0.22, 0.24, 0.2646};
 
-   TGraphErrors *Run_fit1 = new TGraphErrors( 3, Tempo1, Canali1, Err_tempo1, Err_canali1 );
+   TGraphErrors *Run_fit1 = new TGraphErrors( 3, Canali1, Tempo1, Err_canali1, Err_tempo1 );
 
    TCanvas *c5 = new TCanvas("c5", "c5");
    //c5->DrawFrame(0., 2400., 6., 3500.);
@@ -223,12 +223,12 @@ void time_cal() {
    Run_fit1->SetTitle("Calibrazione in Tempo");
    Run_fit1->Draw("A*");
    Run_fit1->SetMarkerStyle(20);
-   Run_fit1->GetXaxis()->SetTitle("T [ns]");
-   Run_fit1->GetYaxis()->SetTitle("Canali");
+   Run_fit1->GetYaxis()->SetTitle("T [ns]");
+   Run_fit1->GetXaxis()->SetTitle("Canali");
    Run_fit1->GetXaxis()->SetTitleSize(0.05);
    Run_fit1->GetYaxis()->SetTitleSize(0.05);
    Run_fit1->GetXaxis()->SetTitleOffset(0.90);
-   Run_fit1->GetYaxis()->SetTitleOffset(1.00);
+   Run_fit1->GetYaxis()->SetTitleOffset(0.85);
    Run_fit1->Fit("pol1", "M");
 
    // Questa TF1 era per provare a disegnare una retta sopra un grafico o un istogramma
