@@ -17,7 +17,7 @@ void analysis () {
    TCutG *picco_bassa_energia  = (TCutG*)cut->Get("picco_bassa_energia");
    TCutG *rumore_new  = (TCutG*)cut->Get("rumore_new"); // Questo è il taglio definito dopo aver parlato con Politi
    TCutG *rumore_cal  = (TCutG*)cut->Get("rumore_cal"); // Questo è il taglio sullo spettro in energia calibrato
-   TCutG *pulser_picco_alto  = (TCutG*)cut->Get("pulser_picco_alto1");
+   TCutG *pulser_picco_alto  = (TCutG*)cut->Get("pulser_picco_alto1"); // Questo taglio è inutile
 
    //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
@@ -59,7 +59,7 @@ void analysis () {
 	 //if ( rumore_new->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
-	 //if ( rumore_new->IsInside(time, energy) )
+	 if ( rumore_new->IsInside(time, energy) )
             h_energy_time_cal->Fill(time, (energy + 55.8416)/0.561032 );
 
 	 if ( rumore_new->IsInside(time, energy) )
@@ -233,14 +233,15 @@ void analysis () {
    Double_t par3[6];
 
    //h_ener_cal->Fit(gaus5,"RM");
-   h_ener_cal_clone1->Fit(gaus6,"RM","sames");
+   //h_ener_cal_clone1->Fit(gaus6,"RM","sames");
+   h_ener_cal->Fit(gaus6,"RM");
 
    Double_t sigma1 = gaus6->GetParameter(2);
    //std::cout << "La sigma di gaus4 e' " << sigma1 << std::endl;
 
    gaus5->SetParLimits(2, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
    //gaus5->FixParameter(2, sigma1);
-   h_ener_cal->Fit(gaus5,"RM");
+   h_ener_cal_clone1->Fit(gaus5,"RM","sames");
 
    gaus5->GetParameters(&par3[0]);
    gaus6->GetParameters(&par3[3]);

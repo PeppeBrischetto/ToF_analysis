@@ -71,9 +71,11 @@ void time_cal() {
 
    /* ********** Adesso facciamo il fit sui dati dei soli run 10 e 11 ******************** */
 
-   Double_t canali[2] = {2513., 3413.};
+   Double_t canali[2] = {2513., 3413.};        // Valori stimati con il crosshair
+   //Double_t canali[2] = {2512.89, 3412.62};     // Valori medi dei campioni
    Double_t tempo[2] = {20., 30.};
-   Double_t err_canali[2] = {4., 2.};
+   Double_t err_canali[2] = {4., 2.};          // FWHM stimata con il crosshair
+   //Double_t err_canali[2] = {0.0163, 0.01389};  // Errori sui valori medi dei campioni
    Double_t err_tempo[2] = {0.22, 0.2646};
 
    TGraphErrors *run1011_cal = new TGraphErrors( 2, canali, tempo, err_canali, err_tempo );
