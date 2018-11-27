@@ -21,13 +21,14 @@ void analysis () {
    //const char* fileName = "TOF_run2(ESipuls).asc";
    //const char* fileName = "TOF_run3(TSical).asc";
    //const char* fileName = "TOF_run4.asc";
-   const char* fileName = "TOF_run4NEW.asc";
+   //const char* fileName = "TOF_run4NEW.asc";
    //const char* fileName = "TOF_run5.asc";
    //const char* fileName = "TOF_run5NEW.asc";
+   //const char* fileName = "TOF_run6.asc";
    //const char* fileName = "TOF_run6NEW.asc";
    //const char* fileName = "TOF_run7.asc";   // questo run ha una risoluzione del tof piuttosto brutta
    //const char* fileName = "TOF_run8.asc"; // questo run sembra fare schifo (nella calibraz tof ci sono tre picchi)
-   //const char* fileName = "TOF_run10.asc";
+   const char* fileName = "TOF_run10.asc";
    //const char* fileName = "TOF_run6+10.asc";
    //const char* fileName = "TOF_run4+11.asc";
    //const char* fileName = "TOF_run11.asc";
@@ -59,7 +60,7 @@ void analysis () {
          inputFile >> energy;
          inputFile >> time;
          //h_energy_time->Fill(energy, time);
-	 //if ( rumore->IsInside(time, energy) ) 
+	 if ( rumore->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
    }
