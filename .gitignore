@@ -5,4 +5,6 @@ calibrazione.ods
 .gitignore~
 *.eps
 *.pdf
+*.jpg
+*.png
 *.asc~

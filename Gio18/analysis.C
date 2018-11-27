@@ -91,8 +91,11 @@ void analysis () {
    TCanvas *c3 = new TCanvas("c3", "c3");
    //c3->SetGrid();
    h_ener->SetTitle("Spettro energetico");
+   h_ener->GetXaxis()->SetTitleSize(0.05);
+   h_ener->GetXaxis()->SetTitleOffset(0.85);
    h_ener->GetYaxis()->SetTitle("Conteggi");
-   h_ener->GetYaxis()->SetTitleOffset(1.15);
+   h_ener->GetYaxis()->SetTitleSize(0.05);
+   h_ener->GetYaxis()->SetTitleOffset(0.85);
    h_ener->SetLineWidth(1);
    //h_ener->SetLineColor(kAzure - 8);
    //h_ener->SetFillColor(kAzure - 8);
@@ -172,11 +175,11 @@ void analysis () {
 
    TLegend *legend = new TLegend( 0.615, 0.405, 0.85, 0.555 );
    legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
-   legend->AddEntry( gaus_draw1, "Gaussiana picco a 5420 keV", "l" );
-   legend->AddEntry( gaus_draw2, "Gaussiana picco a 5463 keV", "l" );
-   legend->AddEntry( total, "Fit con funzione a due gaussiane", "l" );
-   legend->SetTextSize(0.023);
-   legend->SetLineWidth(0.);
+   //legend->AddEntry( gaus_draw1, "Gaussiana picco a 5420 keV", "l" );
+   //legend->AddEntry( gaus_draw2, "Gaussiana picco a 5463 keV", "l" );
+   //legend->AddEntry( total, "Fit con funzione a due gaussiane", "l" );
+   legend->SetTextSize(0.034);
+   legend->SetLineWidth(1.);
    legend->Draw();  
 
    TH1D *h_time = h_energy_time->ProjectionX();
