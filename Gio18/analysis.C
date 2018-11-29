@@ -38,7 +38,8 @@ void analysis () {
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.);
+   //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.);
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2082., 99.5, 7400.); // questi per Simone
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
 
@@ -60,7 +61,8 @@ void analysis () {
             h_energy_time->Fill(time, energy);
 
 	 if ( rumore_new->IsInside(time, energy) )
-            h_energy_time_cal->Fill(time, (energy + 55.8416)/0.561032 );
+            //h_energy_time_cal->Fill(time, (energy + 55.8416)/0.561032 ); // valori stimati con il crosshair sul picco con più conteggi
+            h_energy_time_cal->Fill(time, energy*1.780 + 106 );  // valori trovati da Simone
 
 	 if ( rumore_new->IsInside(time, energy) )
             h_energy_time_cal2->Fill(time, energy/0.550482 );
@@ -186,8 +188,18 @@ void analysis () {
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
    h_time->GetYaxis()->SetTitle("Conteggi");
-   h_time->GetYaxis()->SetTitleOffset(1.15);
+   h_time->GetXaxis()->SetTitleSize(0.05);
+   h_time->GetXaxis()->SetTitleOffset(0.85);
+   h_time->GetYaxis()->SetTitle("Conteggi");
+   h_time->GetYaxis()->SetTitleSize(0.05);
+   h_time->GetYaxis()->SetTitleOffset(0.85);
    h_time->Draw();
+
+   TLegend *legend1 = new TLegend( 0.615, 0.405, 0.85, 0.555 );
+   legend1->AddEntry( h_ener, "Dati sperimentali", "fl" );
+   legend1->SetTextSize(0.034);
+   legend1->SetLineWidth(1.);
+   legend1->Draw(); 
 
    /* ***** Qui comincia la parte con la calibrazione in energia con b!=0 *******  */
    

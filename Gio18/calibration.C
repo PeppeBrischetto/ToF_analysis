@@ -20,9 +20,12 @@ void calibration() {
 
    /*  ********  Questi sono i valori DOPO di aver parlato con Politi *********  */
    const Int_t m = 2;
-   Double_t channel[m] = {1203., 3009.};  // Stimato con il crosshair al centro del bin
-   Double_t energy[m] = {2243.796, 5462.863};
-   Double_t err_channel[m] = {76., 28.};
+   //Double_t channel[m] = {1203., 3009.};  // Stimato con il crosshair al centro del bin
+   //Double_t energy[m] = {2243.796, 5462.863}; // valori senza la media pesata sulle energie delle alpha 
+   //Double_t err_channel[m] = {76., 28.};  // valori senza la media pesata sulle energie delle alpha
+   Double_t channel[m] = {1203., 3012.};  // Stimato con il fit sul lato destro del picco
+   Double_t energy[m] = {2243.796, 5462.863}; // valori senza la media pesata sulle energie delle alpha 
+   Double_t err_channel[m] = {76., 28.};  // valori senza la media pesata sulle energie delle alpha
    Double_t err_energy[m] = {0., 0.};
 
    TCanvas *c1 = new TCanvas("c1", "c1");
