@@ -38,8 +38,9 @@ void analysis () {
    TH1D *h_energy = new TH1D("h_energy", "Energy", 2087., 0., 4090.);
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
-   //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.);
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2082., 99.5, 7400.); // questi per Simone
+   //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.); // questi sono per i valori stimati con il crosshair
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2022., 100., 7396.); // questi sono per i valori stimati con il fit sul lato destro dei picchi -> NON FUNZIONA BENE
+   //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2082., 99.5, 7400.); // questi per Simone
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
 
@@ -62,7 +63,8 @@ void analysis () {
 
 	 if ( rumore_new->IsInside(time, energy) )
             //h_energy_time_cal->Fill(time, (energy + 55.8416)/0.561032 ); // valori stimati con il crosshair sul picco con più conteggi
-            h_energy_time_cal->Fill(time, energy*1.780 + 106 );  // valori trovati da Simone
+            h_energy_time_cal->Fill(time, (energy + 56.5387)/0.561343 ); // valori stimati con il fit sul lato destro dei picchi -> NON FUNZIONA BENE
+            //h_energy_time_cal->Fill(time, energy*1.780 + 106 );  // valori trovati da Simone
 
 	 if ( rumore_new->IsInside(time, energy) )
             h_energy_time_cal2->Fill(time, energy/0.550482 );
@@ -231,9 +233,9 @@ void analysis () {
    h_ener_cal_clone1->SetName("Fit picco alta E");
    h_ener_cal_clone2->SetName("Parametri funzione a due gaussiane");
 
-   TF1 *gaus5 = new TF1("gaus5", "gaus", 5320., 5440.);
-   gaus5->SetParLimits(1, 5410., 5425.);
-   TF1 *gaus6 = new TF1("gaus6", "gaus", 5444., 5600.);
+   TF1 *gaus5 = new TF1("gaus5", "gaus", 5320., 5440.); // valori per la calibrazione stimata con il crosshair
+   gaus5->SetParLimits(1, 5410., 5425.); // valori per la calibrazione stimata con il crosshair
+   TF1 *gaus6 = new TF1("gaus6", "gaus", 5444., 5600.); // valori per la calibrazione stimata con il crosshair
 
    TF1 *total2 = new TF1("total2", "gaus(0) + gaus(3)", 5300., 5600.);
    total2->SetParName(0, "Const1");
@@ -262,7 +264,7 @@ void analysis () {
    gaus6->GetParameters(&par3[3]);
  
    total2->SetParameters(par3);
-   //total2->SetParLimits(1, 5410., 5422.);
+   //total2->SetParLimits(1, 5418., 5422.);
    //total2->SetParLimits(2, sigma1 - 0.1*sigma1, sigma1 - 0.004*sigma1);
    total2->SetParLimits(2, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
    total2->SetParLimits(5, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
