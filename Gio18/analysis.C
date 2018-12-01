@@ -39,7 +39,7 @@ void analysis () {
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
    //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.); // questi sono per i valori stimati con il crosshair
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2051., 100., 7396.); // questi sono per i valori stimati con il fit sul lato destro dei picchi -> NON FUNZIONA BENE
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2032., 100., 7396.); // questi sono per i valori stimati con il fit sul lato destro dei picchi -> MIGLIOR BINNING 2032.
    //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2082., 99.5, 7400.); // questi per Simone
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
@@ -70,7 +70,7 @@ void analysis () {
             h_energy_time_cal2->Fill(time, energy/0.550482 );
 
    }
-   gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
+   gStyle->SetOptFit(0111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
    gStyle->SetOptStat("n");
    gStyle->SetStatY(0.9);
    gStyle->SetStatX(0.9);
@@ -94,7 +94,7 @@ void analysis () {
 
    TCanvas *c3 = new TCanvas("c3", "c3");
    //c3->SetGrid();
-   h_ener->SetTitle("Spettro energetico");
+   h_ener->SetTitle("Parametri del fit");
    h_ener->GetXaxis()->SetTitleSize(0.05);
    h_ener->GetXaxis()->SetTitleOffset(0.85);
    h_ener->GetYaxis()->SetTitle("Conteggi");
@@ -109,14 +109,15 @@ void analysis () {
    TH1D *h_ener_clone1 = (TH1D*)( h_ener->Clone() );
    TH1D *h_ener_clone2 = (TH1D*)( h_ener->Clone() );
    
-   h_ener_clone1->SetName("Fit picco alta E");
-   h_ener_clone2->SetName("Parametri funzione a due gaussiane");
+   h_ener_clone1->SetName("Parametri del fit");
+   h_ener_clone2->SetName("Parametri del fit");
 
    /*  *****  Questa parte serve per fittare il picco con una funzione a due gaussiane  ******   */
    
    TF1 *gaus1 = new TF1("gaus1", "gaus", 2900., 2999.);
    gaus1->SetParLimits(1, 2960., 2994.);
-   TF1 *gaus2 = new TF1("gaus2", "gaus", 3006., 3040.);
+   TF1 *gaus2 = new TF1("gaus2", "gaus", 2999., 3040.);  // Se ci metto (3006., 3040.) la mean viene a 3012.
+                                                         // Se ci metto (2999., 3040.) la mean viene a 3009.93
 
    TF1 *total = new TF1("total", "gaus(0) + gaus(3)", 2900., 3060.);
    total->SetParName(0, "Const1");
@@ -127,7 +128,7 @@ void analysis () {
    total->SetParName(5, "#sigma2");
 
    gaus1->SetLineColor(kBlue + 2);
-   gaus2->SetLineColor(kOrange);
+   gaus2->SetLineColor(kRed);
    Double_t par[6];
 
    h_ener->Fit(gaus1,"RM");
@@ -179,6 +180,7 @@ void analysis () {
 
    TLegend *legend = new TLegend( 0.615, 0.405, 0.85, 0.555 );
    legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
+   legend->AddEntry( gaus2, "Fit picco a 5462.9 keV", "l" );  // Ricordati che questo è il fit per il picco a 5462.9
    //legend->AddEntry( gaus_draw1, "Gaussiana picco a 5420 keV", "l" );
    //legend->AddEntry( gaus_draw2, "Gaussiana picco a 5463 keV", "l" );
    //legend->AddEntry( total, "Fit con funzione a due gaussiane", "l" );
