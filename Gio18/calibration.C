@@ -23,9 +23,12 @@ void calibration() {
    //Double_t channel[m] = {1203., 3009.};  // Stimato con il crosshair al centro del bin
    //Double_t energy[m] = {2243.796, 5462.863}; // valori senza la media pesata sulle energie delle alpha 
    //Double_t err_channel[m] = {76., 28.};  // valori delle FWHM stimati con il crosshair
-   Double_t channel[m] = {1203., 3010.};  // valori dei centroidi stimati con il fit sul lato destro dei picchi
-   Double_t energy[m] = {2243.796, 5462.863}; // valori di LISE++ senza la media pesata sulle energie delle alpha 
-   Double_t err_channel[m] = {78., 22.};  // valori delle FWHM stimati con il fit sul lato destro dei picchi
+   //Double_t channel[m] = {1203., 3010.};  // valori dei centroidi stimati con il fit sul lato destro dei picchi
+   Double_t channel[m] = {1201.7, 3009.9};  // valori dei centroidi stimati con il fit più accurato sul lato destro dei picchi
+   Double_t energy[m] = {2243.8, 5462.9}; // valori di LISE++ ARROTONDATI senza la media pesata sulle energie delle alpha 
+   //Double_t energy[m] = {2243.796, 5462.863}; // valori di LISE++ senza la media pesata sulle energie delle alpha 
+   //Double_t err_channel[m] = {78., 22.};  // valori delle FWHM stimati con il fit sul lato destro dei picchi
+   Double_t err_channel[m] = {79.5, 24.4};  // valori delle FWHM stimati con il fit accurato sul lato destro dei picchi
    //Double_t err_channel[m] = {0., 0.};
    Double_t err_energy[m] = {0., 0.};
 

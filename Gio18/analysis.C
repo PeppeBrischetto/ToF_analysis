@@ -63,7 +63,8 @@ void analysis () {
 
 	 if ( rumore_new->IsInside(time, energy) )
             //h_energy_time_cal->Fill(time, (energy + 55.8416)/0.561032 ); // valori stimati con il crosshair sul picco con più conteggi
-            h_energy_time_cal->Fill(time, (energy + 56.5387)/0.561343 ); // valori stimati con il fit sul lato destro dei picchi -> NON FUNZIONA BENE
+            //h_energy_time_cal->Fill(time, (energy + 56.5387)/0.561343 ); // valori stimati con il fit sul lato destro dei picchi -> NON FUNZIONA BENE
+            h_energy_time_cal->Fill(time, (energy + 58.6644)/0.561710 ); // ULTIMO: valori stimati con il fit sul lato destro dei picchi
             //h_energy_time_cal->Fill(time, energy*1.780 + 106 );  // valori trovati da Simone
 
 	 if ( rumore_new->IsInside(time, energy) )
@@ -253,14 +254,14 @@ void analysis () {
 
    //h_ener_cal->Fit(gaus5,"RM");
    //h_ener_cal_clone1->Fit(gaus6,"RM","sames");
-   h_ener_cal->Fit(gaus6,"RM");
+   //h_ener_cal->Fit(gaus6,"RM");
 
    Double_t sigma1 = gaus6->GetParameter(2);
    //std::cout << "La sigma di gaus4 e' " << sigma1 << std::endl;
 
    gaus5->SetParLimits(2, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
    //gaus5->FixParameter(2, sigma1);
-   h_ener_cal_clone1->Fit(gaus5,"RM","sames");
+   //h_ener_cal_clone1->Fit(gaus5,"RM","sames");
 
    gaus5->GetParameters(&par3[0]);
    gaus6->GetParameters(&par3[3]);
@@ -271,7 +272,7 @@ void analysis () {
    total2->SetParLimits(2, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
    total2->SetParLimits(5, sigma1 - 0.0001*sigma1, sigma1 + 0.0001*sigma1);
 
-   h_ener_cal_clone2->Fit(total2,"RM","sames");
+   //h_ener_cal_clone2->Fit(total2,"RM","sames");
 
    TF1 *gaus_draw5 = new TF1("gaus_draw5", "gaus", 5350., 5500.);
    gaus_draw5->FixParameter( 0, total2->GetParameter(0) );
@@ -279,7 +280,7 @@ void analysis () {
    gaus_draw5->FixParameter( 2, total2->GetParameter(2) );
    gaus_draw5->SetLineColor(kOrange + 1);
    gaus_draw5->SetLineStyle(2);
-   gaus_draw5->Draw("same");
+   //gaus_draw5->Draw("same");
   
    TF1 *gaus_draw6 = new TF1("gaus_draw6", "gaus", 5400., 5600.);
    gaus_draw6->FixParameter( 0, total2->GetParameter(3) );
@@ -287,10 +288,15 @@ void analysis () {
    gaus_draw6->FixParameter( 2, total2->GetParameter(5) );
    gaus_draw6->SetLineColor(kGreen-3);
    gaus_draw6->SetLineStyle(9);
-   gaus_draw6->Draw("same");
+   //gaus_draw6->Draw("same");
 
    gPad->Update();
 
+   TLegend *legend2 = new TLegend( 0.615, 0.405, 0.85, 0.555 );
+   legend2->AddEntry( h_ener_cal, "Dati sperimentali", "fl" );
+   legend2->SetTextSize(0.034);
+   legend2->SetLineWidth(1.);
+   legend2->Draw(); 
    
 
    /* ***** Qui comincia la parte con la calibrazione in energia con b=0 *******  */
