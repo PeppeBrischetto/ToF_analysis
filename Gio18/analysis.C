@@ -39,7 +39,7 @@ void analysis () {
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
    //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.); // questi sono per i valori stimati con il crosshair
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2032., 100., 7396.); // questi sono per i valori stimati con il fit sul lato destro dei picchi -> MIGLIOR BINNING 2032.
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2048., 104., 7396.); // questi sono per i valori stimati con il fit sul lato destro dei picchi -> MIGLIOR BINNING 2032.
    //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2082., 99.5, 7400.); // questi per Simone
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
@@ -71,7 +71,7 @@ void analysis () {
             h_energy_time_cal2->Fill(time, energy/0.550482 );
 
    }
-   gStyle->SetOptFit(0111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
+   gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
    gStyle->SetOptStat("n");
    gStyle->SetStatY(0.9);
    gStyle->SetStatX(0.9);
@@ -234,19 +234,19 @@ void analysis () {
    TH1D *h_ener_cal_clone2 = (TH1D*)( h_ener_cal->Clone() );
    
    h_ener_cal_clone1->SetName("Fit picco alta E");
-   h_ener_cal_clone2->SetName("Parametri funzione a due gaussiane");
+   h_ener_cal_clone2->SetName("Parametri del fit");
 
    TF1 *gaus5 = new TF1("gaus5", "gaus", 5320., 5440.); // valori per la calibrazione stimata con il crosshair
    gaus5->SetParLimits(1, 5410., 5425.); // valori per la calibrazione stimata con il crosshair
    TF1 *gaus6 = new TF1("gaus6", "gaus", 5444., 5600.); // valori per la calibrazione stimata con il crosshair
 
    TF1 *total2 = new TF1("total2", "gaus(0) + gaus(3)", 5300., 5600.);
-   total2->SetParName(0, "Const1");
-   total2->SetParName(1, "#mu1");
-   total2->SetParName(2, "#sigma1");
-   total2->SetParName(3, "Const2");
-   total2->SetParName(4, "#mu2");
-   total2->SetParName(5, "#sigma2");
+   total2->SetParName(0, "C_{1}");
+   total2->SetParName(1, "#mu_{1}");
+   total2->SetParName(2, "#sigma_{1}");
+   total2->SetParName(3, "C_{2}");
+   total2->SetParName(4, "#mu_{2}");
+   total2->SetParName(5, "#sigma_{2}");
 
    gaus5->SetLineColor(kBlue + 2);
    gaus6->SetLineColor(kOrange);
@@ -294,6 +294,9 @@ void analysis () {
 
    TLegend *legend2 = new TLegend( 0.615, 0.405, 0.85, 0.555 );
    legend2->AddEntry( h_ener_cal, "Dati sperimentali", "fl" );
+   legend2->AddEntry( total2, "Fit a due gaussiane", "l" );
+   legend2->AddEntry( gaus_draw5, "g_{1}(x)", "l" );
+   legend2->AddEntry( gaus_draw6, "g_{2}(x)", "l" );
    legend2->SetTextSize(0.034);
    legend2->SetLineWidth(1.);
    legend2->Draw(); 
