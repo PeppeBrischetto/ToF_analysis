@@ -19,10 +19,10 @@ void analysis () {
    TCutG *rumore_cal  = (TCutG*)cut->Get("rumore_cal"); // Questo è il taglio sullo spettro in energia calibrato
    TCutG *pulser_picco_alto  = (TCutG*)cut->Get("pulser_picco_alto1"); // Questo taglio è inutile
 
-   //const char* fileName = "TOF2_run1_time.asc";
+   const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";	
-   const char* fileName = "TOF2_tot.asc";
+   //const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -39,7 +39,9 @@ void analysis () {
    TH2D *h_energy_time = new TH2D("h_energy_time", "Energy vs Time", 2048., 0., 4096., 2048., 0., 4096.);
 
    //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.); // questi sono per i valori stimati con il crosshair
+
    TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2048., 104., 7396.); // questi sono per i valori stimati con il fit sul lato destro dei picchi -> MIGLIOR BINNING 2032.
+
    //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2082., 99.5, 7400.); // questi per Simone
 
    TH2D *h_energy_time_cal2 = new TH2D("h_energy_time_cal2", "Energy vs Time", 2048., 0., 4096., 2046., 0., 7440.);
@@ -57,13 +59,16 @@ void analysis () {
          inputFile >> time;
          inputFile >> energy;
          //h_energy_time->Fill(time, energy);
-	 if ( rumore_new->IsInside(time, energy) )
-	 //if ( rumore_new->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
+	 //if ( rumore_new->IsInside(time, energy) )
+	 if ( rumore_new->IsInside(time, energy) && picco_bassa_energia->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
 	 if ( rumore_new->IsInside(time, energy) )
+	 //if ( rumore_new->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
             //h_energy_time_cal->Fill(time, (energy + 55.8416)/0.561032 ); // valori stimati con il crosshair sul picco con più conteggi
+
             //h_energy_time_cal->Fill(time, (energy + 56.5387)/0.561343 ); // valori stimati con il fit sul lato destro dei picchi -> NON FUNZIONA BENE
+
             h_energy_time_cal->Fill(time, (energy + 58.6644)/0.561710 ); // ULTIMO: valori stimati con il fit sul lato destro dei picchi
             //h_energy_time_cal->Fill(time, energy*1.780 + 106 );  // valori trovati da Simone
 
@@ -71,7 +76,7 @@ void analysis () {
             h_energy_time_cal2->Fill(time, energy/0.550482 );
 
    }
-   gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
+   gStyle->SetOptFit(0111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
    gStyle->SetOptStat("n");
    gStyle->SetStatY(0.9);
    gStyle->SetStatX(0.9);
@@ -181,7 +186,7 @@ void analysis () {
 
    TLegend *legend = new TLegend( 0.615, 0.405, 0.85, 0.555 );
    legend->AddEntry( h_ener, "Dati sperimentali", "fl" );
-   legend->AddEntry( gaus2, "Fit picco a 5462.9 keV", "l" );  // Ricordati che questo è il fit per il picco a 5462.9
+   legend->AddEntry( gaus2, "Fit gaussiano", "l" );  // Ricordati che questo è il fit per il picco a 5462.9
    //legend->AddEntry( gaus_draw1, "Gaussiana picco a 5420 keV", "l" );
    //legend->AddEntry( gaus_draw2, "Gaussiana picco a 5463 keV", "l" );
    //legend->AddEntry( total, "Fit con funzione a due gaussiane", "l" );
@@ -294,9 +299,9 @@ void analysis () {
 
    TLegend *legend2 = new TLegend( 0.615, 0.405, 0.85, 0.555 );
    legend2->AddEntry( h_ener_cal, "Dati sperimentali", "fl" );
-   legend2->AddEntry( total2, "Fit a due gaussiane", "l" );
-   legend2->AddEntry( gaus_draw5, "g_{1}(x)", "l" );
-   legend2->AddEntry( gaus_draw6, "g_{2}(x)", "l" );
+   //legend2->AddEntry( total2, "Fit gaussiano", "l" );  // Poi ricordati di scrivere "Fit a due gaussiane"
+   //legend2->AddEntry( gaus_draw5, "g_{1}(x)", "l" );
+   //legend2->AddEntry( gaus_draw6, "g_{2}(x)", "l" );
    legend2->SetTextSize(0.034);
    legend2->SetLineWidth(1.);
    legend2->Draw(); 

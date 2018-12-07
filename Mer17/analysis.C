@@ -14,8 +14,8 @@ void analysis () {
    //TCutG *rumore  = (TCutG*)cut->Get("rumore_run5NEW");
    //TCutG *rumore  = (TCutG*)cut->Get("rumore_run6NEW");
    //TCutG *rumore  = (TCutG*)cut->Get("rumore_run7");
-   TCutG *rumore  = (TCutG*)cut->Get("rumore_run10");
-   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run11");
+   //TCutG *rumore  = (TCutG*)cut->Get("rumore_run10");
+   TCutG *rumore  = (TCutG*)cut->Get("rumore_run11");
 
    //const char* fileName = "TOF_run1.asc";
    //const char* fileName = "TOF_run2(ESipuls).asc";
@@ -28,10 +28,10 @@ void analysis () {
    //const char* fileName = "TOF_run6NEW.asc";
    //const char* fileName = "TOF_run7.asc";   // questo run ha una risoluzione del tof piuttosto brutta
    //const char* fileName = "TOF_run8.asc"; // questo run sembra fare schifo (nella calibraz tof ci sono tre picchi)
-   const char* fileName = "TOF_run10.asc";
+   //const char* fileName = "TOF_run10.asc";
+   const char* fileName = "TOF_run11.asc";
    //const char* fileName = "TOF_run6+10.asc";
    //const char* fileName = "TOF_run4+11.asc";
-   //const char* fileName = "TOF_run11.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -65,7 +65,7 @@ void analysis () {
 
    }
 
-   gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
+   gStyle->SetOptFit(0000);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
 
    h_energy->GetXaxis()->SetTitle("Channel");
    h_energy->GetYaxis()->SetTitle("Count");
@@ -86,7 +86,15 @@ void analysis () {
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
    h_time->GetYaxis()->SetTitle("Conteggi");
-   h_time->GetYaxis()->SetTitleOffset(1.15);
+   h_time->GetXaxis()->SetTitle("T [ch]");
+   h_time->GetYaxis()->SetTitleOffset(1.00);
    h_time->Draw();
+
+   TLegend *legend1 = new TLegend( 0.615, 0.405, 0.85, 0.555 );
+   legend1->AddEntry( h_time, "Dati sperimentali", "fl" );
+   legend1->SetTextSize(0.034);
+   legend1->SetLineWidth(1.);
+   legend1->Draw();
+
    std::cout << "La media e' " << h_time->GetMean(1) << " +/- " << h_time->GetMeanError(1) << std::endl;
 }

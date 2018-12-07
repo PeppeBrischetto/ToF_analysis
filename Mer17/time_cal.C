@@ -71,13 +71,14 @@ void time_cal() {
 
    /* ********** Adesso facciamo il fit sui dati dei soli run 10 e 11 ******************** */
 
-   Double_t canali[2] = {2513., 3413.};        // Valori stimati con il crosshair
-   //Double_t canali[2] = {2512.89, 3412.62};     // Valori medi dei campioni
+   //Double_t canali[2] = {2513., 3413.};        // Valori stimati con il crosshair
+   Double_t canali[2] = {2512.89, 3412.62};     // Valori medi dei campioni
    Double_t tempo[2] = {20., 30.};
-   Double_t err_canali[2] = {4., 2.};          // FWHM stimata con il crosshair
-   //Double_t err_canali[2] = {0.0163, 0.01389};  // Errori sui valori medi dei campioni
+   //Double_t err_canali[2] = {4., 2.};          // FWHM stimata con il crosshair
+   Double_t err_canali[2] = {0.0163, 0.01389};  // Errori sui valori medi dei campioni
    Double_t err_tempo[2] = {0.22, 0.2646};
 
+   // Sia con il crosshair sia con i valori medi, il tempo ha un errore medio maggiore quindi deve stare sull'asse Y
    TGraphErrors *run1011_cal = new TGraphErrors( 2, canali, tempo, err_canali, err_tempo );
 
    TCanvas *c3 = new TCanvas("c3", "c3");
@@ -133,7 +134,7 @@ void time_cal() {
    st->SetTextSize(0.037);
    
    TLegend *legend = new TLegend( 0.62, 0.26, 0.9, 0.36 );
-   legend->AddEntry( run1011_cal, "Punti sperimentali", "pe" );
+   //legend->AddEntry( run1011_cal, "Punti sperimentali", "pe" );
    legend->AddEntry( retta_cal, "Retta di calibrazione", "l" );
    legend->SetTextSize(0.035);
    legend->Draw();
