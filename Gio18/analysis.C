@@ -19,10 +19,10 @@ void analysis () {
    TCutG *rumore_cal  = (TCutG*)cut->Get("rumore_cal"); // Questo è il taglio sullo spettro in energia calibrato
    TCutG *pulser_picco_alto  = (TCutG*)cut->Get("pulser_picco_alto1"); // Questo taglio è inutile
 
-   const char* fileName = "TOF2_run1_time.asc";
+   //const char* fileName = "TOF2_run1_time.asc";
    //const char* fileName = "TOF2_run2_pul.asc";
    //const char* fileName = "TOF2_run3_puls.asc";	
-   //const char* fileName = "TOF2_tot.asc";
+   const char* fileName = "TOF2_tot.asc";
    ifstream inputFile;
    inputFile.open(fileName);
    if ( inputFile.fail() ) {
@@ -40,7 +40,7 @@ void analysis () {
 
    //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2038., 99.5, 7400.); // questi sono per i valori stimati con il crosshair
 
-   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2048., 104., 7396.); // questi sono per i valori stimati con il fit sul lato destro dei picchi -> MIGLIOR BINNING 2032.
+   TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 540., 0., 18., 2048., 104., 7396.); // questi sono per i valori stimati con il fit sul lato destro dei picchi -> MIGLIOR BINNING 2032.
 
    //TH2D *h_energy_time_cal = new TH2D("h_energy_time_cal", "Energy vs Time", 2048., 0., 4096., 2082., 99.5, 7400.); // questi per Simone
 
@@ -59,8 +59,8 @@ void analysis () {
          inputFile >> time;
          inputFile >> energy;
          //h_energy_time->Fill(time, energy);
-	 //if ( rumore_new->IsInside(time, energy) )
-	 if ( rumore_new->IsInside(time, energy) && picco_bassa_energia->IsInside(time, energy) ) 
+	 if ( rumore_new->IsInside(time, energy) )
+	 //if ( rumore_new->IsInside(time, energy) && picco_alta_energia->IsInside(time, energy) ) 
             h_energy_time->Fill(time, energy);
 
 	 if ( rumore_new->IsInside(time, energy) )
@@ -69,14 +69,14 @@ void analysis () {
 
             //h_energy_time_cal->Fill(time, (energy + 56.5387)/0.561343 ); // valori stimati con il fit sul lato destro dei picchi -> NON FUNZIONA BENE
 
-            h_energy_time_cal->Fill(time, (energy + 58.6644)/0.561710 ); // ULTIMO: valori stimati con il fit sul lato destro dei picchi
+            h_energy_time_cal->Fill( -0.01111*time + 31.54290, (energy + 58.6644)/0.561710 ); // ULTIMO: valori stimati con il fit sul lato destro dei picchi
             //h_energy_time_cal->Fill(time, energy*1.780 + 106 );  // valori trovati da Simone
 
 	 if ( rumore_new->IsInside(time, energy) )
             h_energy_time_cal2->Fill(time, energy/0.550482 );
 
    }
-   gStyle->SetOptFit(0111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
+   gStyle->SetOptFit(1111);  // Questa opzione stampa (in ordine) prob, chi-quadro, i valori dei parametri e i loro errori
    gStyle->SetOptStat("n");
    gStyle->SetStatY(0.9);
    gStyle->SetStatX(0.9);
@@ -197,24 +197,30 @@ void analysis () {
    TH1D *h_time = h_energy_time->ProjectionX();
    TCanvas *c4 = new TCanvas("c4", "c4");
    h_time->SetTitle("ToF");
+   h_time->SetName("Parametri del fit");
    h_time->GetYaxis()->SetTitle("Conteggi");
    h_time->GetXaxis()->SetTitleSize(0.05);
    h_time->GetXaxis()->SetTitleOffset(0.85);
-   h_time->GetYaxis()->SetTitle("Conteggi");
    h_time->GetYaxis()->SetTitleSize(0.05);
    h_time->GetYaxis()->SetTitleOffset(0.85);
    h_time->Draw();
+   
+   TF1 *gaus_time = new TF1("gaus_time", "gaus", 2250., 2600.);
+   gaus_time->SetParLimits(1, 2300., 2600.);
+
+   //h_time->Fit(gaus_time, "RM");
 
    TLegend *legend1 = new TLegend( 0.615, 0.405, 0.85, 0.555 );
    legend1->AddEntry( h_ener, "Dati sperimentali", "fl" );
+   legend1->AddEntry( gaus_time, "Fit gaussiano", "l" );
    legend1->SetTextSize(0.034);
    legend1->SetLineWidth(1.);
    legend1->Draw(); 
 
-   /* ***** Qui comincia la parte con la calibrazione in energia con b!=0 *******  */
+   /* ***** Qui comincia la parte con la calibrazione in energia con b!=0  e con la calibrazione in tempo *******  */
    
    TCanvas *c5 = new TCanvas("c5", "c5");
-   h_energy_time_cal->GetXaxis()->SetTitle("T [ch]");
+   h_energy_time_cal->GetXaxis()->SetTitle("T [ns]");
    h_energy_time_cal->GetXaxis()->SetTitleSize(0.05);
    h_energy_time_cal->GetXaxis()->SetTitleOffset(0.92);
    h_energy_time_cal->GetYaxis()->SetTitle("E [keV]");
@@ -306,6 +312,18 @@ void analysis () {
    legend2->SetLineWidth(1.);
    legend2->Draw(); 
    
+
+   TH1D *h_time_cal = h_energy_time_cal->ProjectionX();
+   TCanvas *c7 = new TCanvas("c7", "c7");
+   h_time_cal->SetTitle("ToF Calibrato");
+   h_time_cal->SetName("Parametri del fit");
+   h_time_cal->GetYaxis()->SetTitle("Conteggi");
+   h_time_cal->GetXaxis()->SetTitleSize(0.05);
+   h_time_cal->GetXaxis()->SetTitleOffset(0.85);
+   h_time_cal->GetYaxis()->SetTitleSize(0.05);
+   h_time_cal->GetYaxis()->SetTitleOffset(0.85);
+   h_time_cal->Draw();
+
 
    /* ***** Qui comincia la parte con la calibrazione in energia con b=0 *******  */
    /*
